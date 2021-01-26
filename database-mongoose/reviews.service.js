@@ -3,59 +3,17 @@ let dbModel = require('./database.js');
 const ReviewsModel = Reviews.ReviewsModel;
 
 let insertSeedData = (arrayOfObjects) => {
-
   //delete model to remove data
-  ReviewsModel.remove({}, function (err) {
-    console.log('collection removed')
-  });
+  // ReviewsModel.remove({}, function (err) {
+  //   console.log('collection removed')
+  // });
 
-  // ReviewsModel.insertMany(arrayOfObjects)
-  //   .then(function () =>
-  //     console.log("Data inserted")
-  //   )
-  //   .catch(err =>
-  //     console.log(err);
-  //   })
-  arrayOfObjects.forEach(element => {
-    let reviewDocument = new ReviewsModel(
-      {
-        reviewId: element.reviewId,
-        productId: element.productId,
-        color: element.color,
-        configuration: element.configuration,
-        isBestSeller: element.isBestSeller,
-        category: element.category,
-        customerId: element.customerId,
-        customerName: element.customerName,
-        cutomerCountry: element.cutomerCountry,
-        profilePicUrl: element.profilePicUrl,
-        title: element.title,
-        description: element.description,
-        rating: element.rating,
-        isVerifiedPurchase: element.isVerifiedPurchase,
-        isHelpfulCount: element.isHelpfulCount,
-        imageUrlId: element.imageUrlId,
-        reviewDate: element.reviewDate,
-        easeToUse: element.easeToUse,
-        voiceRecognition: element.voiceRecognition,
-        techSupport: element.techSupport,
-        valueForMoney: element.valueForMoney,
-        qualityOfMaterial: element.qualityOfMaterial,
-        batteryLife: element.batteryLife
+  console.log('arrayOfObjects : ', arrayOfObjects);
 
-      }
-    );
-    reviewDocument.save(function (err, doc) {
-      if (err) {
-        console.log(err);
-        return err;
-      }
-      console.log('Document inserted: ', element.reviewId, element.productId, element.rating);
-      return ('insertSeedData');
+  return ReviewsModel.insertMany(arrayOfObjects)
+    .then((result) => console.log("Data inserted"))
+    .catch(err => console.log(err));
 
-    });
-
-  });
 
 };
 
@@ -63,7 +21,7 @@ let insertSeedData = (arrayOfObjects) => {
 
 let getReviews = (productId) => {
   const query = { productId: productId };
-  const limit = 10;
+  const limit = 100;// 100 reviews limit
   const sort = { isHelpfulCount: -1 };
   return ReviewsModel.find(query).limit(limit).sort(sort)
     .select({
@@ -198,17 +156,13 @@ let getReviewExcerpts = (productId) => {
     sort({ isHelpfulCount: -1 }).
     select({ description: 1 })
     .then(result => {
-      console.log(result);
-      //result[0].description.split(' ').slice(0, 2).join(' ');
       return Promise.all(result.map(element => element.description.split(' ').slice(0, 2).join(' ')));
-      //console.log('mapped : ', mapped);
 
     })
     .catch(err => console.log(err))
 
 };
 
-//getReviewExcerpts(1005);
 
 module.exports.insertSeedData = insertSeedData;
 module.exports.getReviews = getReviews;

@@ -24,14 +24,12 @@ let generateSeedData = (customerCount, productCount) => {
     for (var i = 0; i < productCount; i++) { //100 products
       //image generation
       let randomImageCount = Math.floor(Math.random() * Math.floor(10));
-      //console.log('randomImageCount: ', randomImageCount);
       let randomProdImages = [...Array(randomImageCount)].map(() => {
         var min1 = 1;
         var max1 = 50;
         var randomImageNum = Math.floor(Math.random() * (max1 - min1 + 1) + min1);
         return imageUrl + randomImageNum + '.jpg';
       });
-      //console.log(randomProdImages);
 
       count++; //track review ID
       var min = 1;
@@ -79,7 +77,6 @@ let generateSeedData = (customerCount, productCount) => {
 }
 
 var testData = generateSeedData(11, 100);//11 customers, 100 products
-//console.log(testData);
 ReviewService.insertSeedData(testData);
 
 
