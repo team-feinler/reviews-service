@@ -4,10 +4,11 @@ import "regenerator-runtime/runtime";
 // mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const Reviews = require("../database-mongoose/reviews.model");
 const Service = require("../database-mongoose/reviews.service");
+const SeedData = require("../database-mongoose/seeder");
 
 const ReviewsModel = Reviews.ReviewsModel;
 
-describe("Insert Review test", () => {
+describe("Reviews module test", () => {
   beforeAll(async () => {
     await ReviewsModel.remove({});
   });
@@ -85,5 +86,6 @@ describe("Insert Review test", () => {
 
     });
   });
+
 
 });

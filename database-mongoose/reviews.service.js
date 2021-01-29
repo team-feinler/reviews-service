@@ -8,8 +8,6 @@ let insertSeedData = (arrayOfObjects) => {
   //   console.log('collection removed')
   // });
 
-  console.log('arrayOfObjects : ', arrayOfObjects);
-
   return ReviewsModel.insertMany(arrayOfObjects)
     .then((result) => console.log("Data inserted"))
     .catch(err => console.log(err));
@@ -84,7 +82,7 @@ let getReviewSummary = (productId) => {
 
     })
     .then(ratingsByCustomer => {
-      console.log('ratingsByCustomer : ', ratingsByCustomer);
+      //console.log('ratingsByCustomer : ', ratingsByCustomer);
       //calculate the customer rating count in % and save data in object to return
       var reviewSummary = {
         averageRating: ratingsByCustomer[0].avgRating.toFixed(2),
@@ -95,7 +93,7 @@ let getReviewSummary = (productId) => {
         twoStar: (countByReviews.find(obj => obj._id === 2) ? ((countByReviews.find(obj => obj._id === 2).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%'),
         oneStar: (countByReviews.find(obj => obj._id === 1) ? ((countByReviews.find(obj => obj._id === 1).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%')
       };
-      console.log(reviewSummary);
+      //console.log(reviewSummary);
       var promiseSummary = new Promise((resolve, reject) => {
         resolve(reviewSummary)
       });
@@ -126,7 +124,7 @@ let getReviewsByFeature = (productId) => {
     }
   ])
     .then(result => {
-      console.log('getReviewsByFeature: ', result[0])
+      //console.log('getReviewsByFeature: ', result[0])
       var reviewsByFeature = {
         easeToUse: result[0].easeToUseAvg.toFixed(1),
         voiceRecognition: result[0].voiceRecognitionAvg.toFixed(1),

@@ -7,7 +7,7 @@ let generateSeedData = (customerCount, productCount) => {
   //customerCount = 11; //number of customers reviewing
   var count = 0;
   var allTestData = [];
-  for (var j = 1; j < customerCount; j++) {
+  for (var j = 1; j < customerCount + 1; j++) {
     var profilePicUrl = 'https://fec-customers-bucket.s3-us-west-1.amazonaws.com/profile' + (j) + '.jpg';
 
     var custId = j;
@@ -75,9 +75,11 @@ let generateSeedData = (customerCount, productCount) => {
   return allTestData;
 
 }
+//run below code to seed the Database with test data
+//var testData = generateSeedData(11, 100);//11 customers, 100 products
+//ReviewService.insertSeedData(testData);
 
-var testData = generateSeedData(11, 100);//11 customers, 100 products
-ReviewService.insertSeedData(testData);
 
+module.exports.generateSeedData = generateSeedData;
 
 
