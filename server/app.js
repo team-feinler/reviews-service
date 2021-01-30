@@ -3,20 +3,22 @@ let app = express();
 const bodyParser = require('body-parser');
 const db = require('../database-mongoose/reviews.service');
 
-app.use(express.static('client/dist'));
 app.use(express.static('public'));
+//app.use(express.static('client/dist'));
+app.use(express.static(__dirname + '/../client/dist'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/Reviews', (req, res) => {
-  res.send('API post');
+// app.post('/Reviews', (req, res) => {
+//   res.send('API post');
 
-});
+// });
 
-app.get('/Reviews', (req, res) => {
-  res.status(200).send('API get Reviews');
+// app.get('/Reviews', (req, res) => {
+//   res.status(200).send('API get Reviews');
 
-});
+// });
 
 app.get('/Reviews/getReviews/:productId', (req, res) => {
 
