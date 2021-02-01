@@ -41,8 +41,12 @@ app.get('/Reviews/getReviews/:productId', (req, res) => {
 
 app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
+  console.log('review summary post called :', prodId);
+  console.log('body: ', req.body);
+  console.log('params:', req.params);
   db.getReviewSummary(parseInt(prodId.productId))
     .then(results => {
+      console.log(results);
       if (results) {
         res.status(200).send(results);
       } else {
@@ -54,9 +58,29 @@ app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
     .catch(err => console.log('err: ', err));
 });
 
+// to test using postman: http://localhost:4006/Reviews/getReviewSummary/1001
+app.post('/Reviews/getReviewSummary/:productId', (req, res) => {
+  let prodId = req.params; //{id: "5"}
+  console.log('review summary post called :', prodId);
+  console.log('body: ', req.body);
+  console.log('params:', req.params);
+  db.getReviewSummary(parseInt(prodId.productId))
+    .then(results => {
+      console.log(results);
+      if (results) {
+        res.status(200).send(results);
+      } else {
+        var reviewSummary = [];
+        res.status(404).send(results);
+
+      }
+    })
+    .catch(err => console.log('err: ', err));
+});
+
 app.get('/Reviews/getReviewsByFeature/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
-
+  console.log('review feature :', prodId);
   db.getReviewsByFeature(parseInt(prodId.productId))
     .then(results => {
       if (results) {
@@ -71,6 +95,24 @@ app.get('/Reviews/getReviewsByFeature/:productId', (req, res) => {
 });
 
 app.get('/Reviews/getReviewExcerpts/:productId', (req, res) => {
+  let prodId = req.params; //{id: "5"}
+  db.getReviewExcerpts(parseInt(prodId.productId))
+    .then(results => {
+      if (results) {
+        res.status(200).send(results);
+      } else {
+        var excerpts = [];
+        res.status(404).send(excerpts);
+
+      }
+    })
+    .catch(err => console.log('err: ', err));
+});
+
+app.post('/Reviews/getReviewExcerpts/:productId', (req, res) => {
+  console.log('review excepts post called')
+  console.log('body: ', req.body);
+  console.log('params:', req.params);
   let prodId = req.params; //{id: "5"}
   db.getReviewExcerpts(parseInt(prodId.productId))
     .then(results => {

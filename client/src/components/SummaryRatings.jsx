@@ -1,66 +1,46 @@
 import React from "react";
 import StarRating from 'react-star-rating-component';
+import ChartReview from './Chart.jsx';
 
-class SummaryRatings extends React.Component {
+const SummaryRatings = (props) => {
+  console.log('props.summaryRating 1 :', props);
 
-  constructor() {
-    super();
-    this.state = {
-      rating: 1,
-      totalRatings: 1
-    };
-  }
+  const summaryRating = props ? props.summaryRating : null;
+  const averageRating = parseFloat(summaryRating.averageRating);
+  let totalRatings = summaryRating.totalRatings;
 
-  render() {
-    const { rating, totalRatings } = this.state;
+  //*******need code review with TM on this section
+  const rightYlabel = props ? props.rightYlabel : null;
+  const leftYlabel = props ? props.leftYlabel : null;
+  const ratingPercent = props ? props.ratingPercent : null; //["60", "10", "30", "2", "10"];
+  // const leftYlabel = ['5 star', '4 star', '3 star', '2 star', '1 star'];
+  // const ratingPercent = [60, 10, 30, 2, 10];
+  // const rightYlabel = ["60%", "10%", "30%", "2%", "10%"];
+  console.log('props.summaryRating 2 :', props);
 
-    return (
+
+  return (
+    <div>
+      <div><h2>Customer reviews</h2></div>
       <div>
-        <div>Customer reviews</div>
-        <div>
-          <StarRating
-            name="rate1"
-            starCount={5}
-            value={rating}
-            starColor="#FFA500"
-          // editing=false
-          />
-          <label>{rating} out of 5</label>
-        </div>
-        <div> {totalRatings} global ratings </div>
+        <StarRating
+          name="rate1"
+          starCount={5}
+          value={averageRating ? averageRating : 0}
+          starColor="#FFA500"
+        // editing=false
+        />
+        <label>{averageRating ? averageRating : null} out of 5</label>
+      </div>
+      <div> {totalRatings ? totalRatings : null} global ratings </div>
 
-        <div>
-
-          <table>
-            <thead></thead>
-            <tbody>
-              <tr>
-                <td >5 star</td>
-                <td className="red"></td>
-                <td className="white"></td>
-                <td >81%</td>
-              </tr>
-
-              <tr>
-                <td>4 star</td>
-                <td id="tdBar"></td>
-                <td>81%</td>
-              </tr>
-
-              <tr>
-                <td>3 star</td>
-                <td id="tdBar"></td>
-                <td>81%</td>
-              </tr>
-            </tbody>
-
-          </table >
-
-        </div >
+      <div>
+        {/* <ChartReview ratingPercent={props.ratingPercent} leftYlabel={props.leftYlabel} rightYlabel={props.rightYlabel} /> */}
+        <ChartReview ratingPercent={ratingPercent} leftYlabel={leftYlabel} rightYlabel={rightYlabel} />
       </div >
+    </div >
 
-    );
-  }
+  );
 
 }
 

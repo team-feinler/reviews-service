@@ -5,10 +5,11 @@ class SummaryReview extends React.Component {
   render() {
     return (
       <div>
-        <div>---------------------------</div>
-        <div>Review this product</div>
-        <div>Share your thoughts with other cutomers</div>
-        <button>Write a customer Review</button>
+        <div><h3>Review this product</h3></div>
+        <div>Share your thoughts with other customers</div>
+        <div></div>
+        <br></br>
+        <button className="a-button">Write a customer Review</button>
       </div>
     );
   }

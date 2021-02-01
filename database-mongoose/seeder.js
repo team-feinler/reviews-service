@@ -76,8 +76,8 @@ let generateSeedData = (customerCount, productCount) => {
 
 }
 //run below code to seed the Database with test data
-//var testData = generateSeedData(11, 100);//11 customers, 100 products
-//ReviewService.insertSeedData(testData);
+// var testData = generateSeedData(11, 100);//11 customers, 100 products
+// ReviewService.insertSeedData(testData);
 
 
 module.exports.generateSeedData = generateSeedData;

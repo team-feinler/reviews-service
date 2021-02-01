@@ -15,15 +15,15 @@ class App extends React.Component {
 
   }
 
+  //get data
+
   render() {
     return (
       <div>
         <div className="flex-container">
           <div className="flex-item-left"><Summary /></div>
           <div className="flex-item-right"><Reviews /></div>
-
         </div>
-
       </div>
 
 

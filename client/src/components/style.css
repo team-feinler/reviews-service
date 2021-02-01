@@ -9,7 +9,6 @@
   font-size: 30 px;
   text-align: left
   /* flex-wrap: nowrap; */
-  /* background-color: rgb(180, 212, 243); */
 }
 .flex-item-left {
   background-color: #f1f1f1;
@@ -48,7 +47,7 @@
   background-size: 50% 100%;
 }
 
-.red
+/* .red
 {
     background-color: red;
     width: 10px;
@@ -59,4 +58,32 @@
     background-color: #f5faf5;
     width: 90px;
     height: 5px;
+} */
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #C7511F;
+}
+
+.padding-on-right {
+  padding-right: 55px;
+}
+
+.a-button {
+  background: linear-gradient(to bottom,#f7f8fa,#e7e9ec);
+  border-radius: 3px;
+  border-color: #ADB1B8 #A2A6AC #8D9096;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  display: block;
+  padding: 0 10px 0 11px;
+  text-align: center;
+  text-decoration: none!important;
+  position: relative;
+  height: 29px;
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset;
+  white-space: nowrap;
 }
