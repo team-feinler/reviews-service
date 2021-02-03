@@ -10,13 +10,16 @@ const SummaryRatings = (props) => {
   let totalRatings = summaryRating.totalRatings;
 
   //*******need code review with TM on this section
-  const rightYlabel = props ? props.rightYlabel : null;
-  const leftYlabel = props ? props.leftYlabel : null;
-  const ratingPercent = props ? props.ratingPercent : null; //["60", "10", "30", "2", "10"];
-  // const leftYlabel = ['5 star', '4 star', '3 star', '2 star', '1 star'];
-  // const ratingPercent = [60, 10, 30, 2, 10];
-  // const rightYlabel = ["60%", "10%", "30%", "2%", "10%"];
-  console.log('props.summaryRating 2 :', props);
+  // const rightYlabel = props ? props.rightYlabel : null;
+  // console.log('rightYlabel: ', rightYlabel);
+  // const leftYlabel = props ? props.leftYlabel : null;
+  // console.log('leftYlabel: ', leftYlabel);
+  // const ratingPercent = props ? props.ratingPercent : null; //["60", "10", "30", "2", "10"];
+  //console.log('ratingPercent : ', ratingPercent);
+  const leftYlabel = ['5 star', '4 star', '3 star', '2 star', '1 star'];
+  const ratingPercent = [60, 10, 30, 2, 10];
+  const rightYlabel = ["60%", "10%", "30%", "2%", "10%"];
+  //console.log('props.summaryRating 2 :', props);
 
 
   return (

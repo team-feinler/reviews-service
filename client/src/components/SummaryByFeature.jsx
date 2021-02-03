@@ -52,7 +52,7 @@ class SummaryByFeature extends React.Component {
     return (
       <div>
         <div>
-          <a onClick={(event) => this.toggleCollapsible(event)}> {!this.state.collapsibleOpen ? (<i class="fa fa-angle-down"></i>) : (<i class="fa fa-angle-up"></i>)}
+          <a onClick={(event) => this.toggleCollapsible(event)}> {!this.state.collapsibleOpen ? (<i className="fa fa-angle-down"></i>) : (<i className="fa fa-angle-up"></i>)}
           How are ratings calculated ?</a>
           {this.state.collapsibleOpen ? (<div> To calculate the overall star rating and percentage breakdown by star, we don’t use a simple average. Instead, our system considers things like how recent a review is and if the reviewer bought the item on Amazon. It also analyzes reviews to verify trustworthiness.</div>) : null}
 
@@ -67,7 +67,7 @@ class SummaryByFeature extends React.Component {
                 // console.log('Object.entries: ', key);
                 return (
                   <tr id={key}>
-                    <td class="padding-on-right">{key}</td>
+                    <td className="padding-on-right">{key}</td>
                     <td><StarRating
                       name="rate1"
                       starCount={5}
@@ -88,7 +88,7 @@ class SummaryByFeature extends React.Component {
         </div>
 
         <div>
-          <a onClick={(event) => this.toggleFeatureCollapsible(event)}> {!this.state.featureToggleOpen ? (<i class="fa fa-angle-down"></i>) : (<i class="fa fa-angle-up"></i>)}
+          <a onClick={(event) => this.toggleFeatureCollapsible(event)}> {!this.state.featureToggleOpen ? (<i className="fa fa-angle-down"></i>) : (<i className="fa fa-angle-up"></i>)}
             {!this.state.featureToggleOpen ? 'See more' : 'See Less'}</a>
         </div>
         <div><hr /></div>
