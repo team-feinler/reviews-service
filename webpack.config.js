@@ -20,7 +20,7 @@ module.exports = {
   },
   output: {
     path: DIST_DIR,
-    filename: "bundle.js"
+    filename: "reviews_bundle.js"
   }
 
 };
