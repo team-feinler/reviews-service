@@ -11,18 +11,22 @@ class Summary extends React.Component {
     this.state = {
       productId: 1005,
       summaryRating: {},
-      leftYlabel: [],
+      leftYlabel: ['5 star', '4 star', '3 star', '2 star', '1 star'],
       rightYlabel: [],
       ratingPercent: [],
       summaryByFeature: {}
     };
     //this.getRatings = this.getRatings.bind(this);
+    this.getProductReviewSummary = this.getProductReviewSummary.bind(this);
+    this.getProductSummaryByFeature = this.getProductSummaryByFeature.bind(this);
+    this.getProductReviewSummary(this.state.productId);
+    this.getProductSummaryByFeature(this.state.productId);
 
   }
 
   componentDidMount() {
-    this.getProductReviewSummary(this.state.productId);
-    this.getProductSummaryByFeature(this.state.productId);
+    // this.getProductReviewSummary(this.state.productId);
+    // this.getProductSummaryByFeature(this.state.productId);
 
   }
 
@@ -47,8 +51,7 @@ class Summary extends React.Component {
         this.setState({
           summaryRating: result.data,
           ratingPercent: ratingPct,
-          rightYlabel: rightLabel,
-          leftYlabel: ['5 star', '4 star', '3 star', '2 star', '1 star']
+          rightYlabel: rightLabel
 
         });
         //this.getRatings(result.data);
