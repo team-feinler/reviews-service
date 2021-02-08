@@ -3,9 +3,9 @@ let app = express();
 const bodyParser = require('body-parser');
 const db = require('../database-mongoose/reviews.service');
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/../public/dist'));
 //app.use(express.static('client/dist'));
-app.use(express.static(__dirname + '/../client/dist'));
+app.use(express.static(__dirname + '/../client'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

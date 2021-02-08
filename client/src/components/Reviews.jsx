@@ -2,6 +2,8 @@ import React from "react";
 import ReviewsCustomerImages from './ReviewsCustomerImages.jsx';
 import ReviewsPhrases from './ReviewsPhrases.jsx';
 import ReviewsFromUs from './ReviewsFromUs.jsx';
+import ErrorBoundary from './ErrorBoundary.jsx';
+import ReviewsPopup from './ReviewsPopup.jsx';
 import axios from 'axios';
 import "./style.css";
 
@@ -15,12 +17,18 @@ class Reviews extends React.Component {
       phrases: [],
       customerImages: []
     };
+    this.getCustomerReviews = this.getCustomerReviews.bind(this);
+    this.getReviewExcerpt = this.getReviewExcerpt.bind(this);
+
+    this.getCustomerReviews(this.state.productId);
+    this.getReviewExcerpt(this.state.productId);
+
 
   }
 
   componentDidMount() {
-    this.getCustomerReviews(this.state.productId);
-    this.getReviewExcerpt(this.state.productId);
+    // this.getCustomerReviews(this.state.productId);
+    // this.getReviewExcerpt(this.state.productId);
   }
 
   getCustomerReviews(productId) {
@@ -29,8 +37,8 @@ class Reviews extends React.Component {
         console.log('Review query results: ', results);
         this.setState({
           reviews: results.data
-
         });
+
       })
       .catch(err => console.log('Error: ', err))
 
@@ -50,10 +58,14 @@ class Reviews extends React.Component {
   }
 
   render() {
+
     return (
       <div className="Reviews">
-        <div> Hello, This is Reviews section!</div>
-        <ReviewsCustomerImages />
+        {/* <ErrorBoundary> */}
+        <ReviewsCustomerImages reviews={this.state.reviews} />
+        {/* </ErrorBoundary> */}
+        {/* <ReviewsPopup /> */}
+
         <ReviewsPhrases phrases={this.state.phrases} />
         <ReviewsFromUs reviews={this.state.reviews} />
 

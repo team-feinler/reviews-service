@@ -2,39 +2,20 @@ import React from 'react';
 import Chart from "chart.js";
 //var Chart = require('chart.js');
 
-class ChartReview extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log('Chart Props: ', props);
-    this.state = {
-      data: props.ratingPercent,
-      leftLabel: props.leftYlabel,
-      rightLabel: props.rightYlabel
+const ChartReview = (props) => {
 
-    };
-    this.chartRef = React.createRef();
-    //this.setHorizontalChart = this.setHorizontalChart.bind(this);
-  }
-
-  //var ctx = document.getElementById('canvas').getContext('2d');
-
-  componentDidMount() {
-    this.setHorizontalChart();
-
-  }
-
-  setHorizontalChart() {
-    console.log('Chart Props component : ', this.props);
-    const myChartRef = this.chartRef.current.getContext("2d");
-    var horizonalBarChart = new Chart(myChartRef, {
+  //const myChartRef = this.chartRef.current.getContext("2d");
+  var context = document.getElementById("chart");
+  if (context) {
+    var ctx = document.getElementById('chart').getContext("2d");
+    var horizonalBarChart = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
         datasets: [
-
           {
             backgroundColor: ["#DE7921", "#DE7921", "#DE7921", "#DE7921", "#DE7921"],
             // data: ["60", "10", "30", "2", "10"],
-            data: this.state.data ? this.state.data : null,
+            data: props.ratingPercent ? props.ratingPercent : null,
             label: null
           }
         ]
@@ -69,7 +50,7 @@ class ChartReview extends React.Component {
               position: 'left',
               type: 'category',
               // labels: ["5 star", "4 star", "3 star", "2 star", "1 star"],
-              labels: this.state.leftLabel,
+              labels: props.leftYlabel,
               weight: 1,
               stacked: true,
               gridLines: {
@@ -84,7 +65,7 @@ class ChartReview extends React.Component {
               position: 'right',
               type: 'category',
               // labels: ["5%", "60%", "10%", "15%", "10%"],
-              labels: this.state.rightLabel,
+              labels: props.rightYlabel,
               gridLines: {
                 display: false,
                 drawBorder: false
@@ -94,15 +75,16 @@ class ChartReview extends React.Component {
         }
       }
     });
+
   }
 
-  render() {
-    return (
-      <div>
-        <canvas id="myChart" ref={this.chartRef} />
-      </div>
-    )
-  }
+
+
+  return (
+    <div>
+      <canvas id="chart" />
+    </div>
+  );
 
 }
 
