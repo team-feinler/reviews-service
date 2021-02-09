@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ReviewsPhrases = (props) => {
-  console.log('props phrases : ', props.phrases)
+
   const phrases = props.phrases ? props.phrases : [];
-  console.log('props phrases : ', props.phrases);
+
   const Button = styled.button`
   linear-gradient(to bottom,#f7f8fa,#e7e9ec);
   border-radius: 3px;

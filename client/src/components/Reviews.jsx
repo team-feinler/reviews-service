@@ -5,7 +5,7 @@ import ReviewsFromUs from './ReviewsFromUs.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 import ReviewsPopup from './ReviewsPopup.jsx';
 import axios from 'axios';
-import "./style.css";
+//import "./style.css";
 
 class Reviews extends React.Component {
 
@@ -20,18 +20,16 @@ class Reviews extends React.Component {
     this.getCustomerReviews = this.getCustomerReviews.bind(this);
     this.getReviewExcerpt = this.getReviewExcerpt.bind(this);
 
-    this.getCustomerReviews(this.state.productId);
-    this.getReviewExcerpt(this.state.productId);
-
-
   }
 
   componentDidMount() {
-    // this.getCustomerReviews(this.state.productId);
-    // this.getReviewExcerpt(this.state.productId);
+    this.getCustomerReviews(this.props.productId);
+    this.getReviewExcerpt(this.props.productId);
+
   }
 
   getCustomerReviews(productId) {
+    //console.log('getCustomerReviews:', productId);
     return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
       .then(results => {
         console.log('Review query results: ', results);
@@ -47,7 +45,7 @@ class Reviews extends React.Component {
   getReviewExcerpt(productId) {
     return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
       .then(wordsArray => {
-        console.log('Review phrases results: ', wordsArray);
+        //console.log('Review phrases results: ', wordsArray);
         this.setState({
           phrases: wordsArray.data
 
@@ -60,11 +58,10 @@ class Reviews extends React.Component {
   render() {
 
     return (
-      <div className="Reviews">
+      <div>
         {/* <ErrorBoundary> */}
         <ReviewsCustomerImages reviews={this.state.reviews} />
         {/* </ErrorBoundary> */}
-        {/* <ReviewsPopup /> */}
 
         <ReviewsPhrases phrases={this.state.phrases} />
         <ReviewsFromUs reviews={this.state.reviews} />

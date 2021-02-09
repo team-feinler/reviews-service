@@ -20,15 +20,6 @@ describe("test the root path", () => {
     await mongoose.connection.close();
   });
 
-  test("it should response the GET method", async () => {
-    return request(app)
-      .get("/Reviews")
-      .then(response => {
-        expect(response.statusCode).toBe(200);
-
-      });
-  });
-
   test("/Reviews/getReviews/:productId : it should respond with an array of reviews, respond 200 for valid response ", async () => {
     var productId = 1000;
     var mockData = await SeedData.generateSeedData(1, 1);//load 1 review for 1 product
