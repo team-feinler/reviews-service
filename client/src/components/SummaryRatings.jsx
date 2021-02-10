@@ -6,8 +6,8 @@ const SummaryRatings = (props) => {
   console.log('props.summaryRating 1 :', props);
 
   const summaryRating = props ? props.summaryRating : null;
-  const averageRating = parseFloat(summaryRating.averageRating);
-  let totalRatings = summaryRating.totalRatings;
+  const averageRating = summaryRating ? parseFloat(summaryRating.averageRating) : 0;
+  let totalRatings = summaryRating ? summaryRating.totalRatings : 0;
 
   return (
     <div>

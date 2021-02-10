@@ -82,11 +82,11 @@ let getReviewSummary = (productId) => {
 
     })
     .then(ratingsByCustomer => {
-      //console.log('ratingsByCustomer : ', ratingsByCustomer);
+      console.log('ratingsByCustomer : ', ratingsByCustomer);
       //calculate the customer rating count in % and save data in object to return
       var reviewSummary = {
-        averageRating: ratingsByCustomer[0].avgRating.toFixed(2),
-        totalRatings: ratingsByCustomer[0].totalRatings,
+        averageRating: ratingsByCustomer[0] ? ratingsByCustomer[0].avgRating.toFixed(2) : 0,
+        totalRatings: ratingsByCustomer[0] ? ratingsByCustomer[0].totalRatings : 0,
         fiveStar: (countByReviews.find(obj => obj._id === 5) ? ((countByReviews.find(obj => obj._id === 5).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%'),
         fourStar: (countByReviews.find(obj => obj._id === 4) ? ((countByReviews.find(obj => obj._id === 4).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%'),
         threeStar: (countByReviews.find(obj => obj._id === 3) ? ((countByReviews.find(obj => obj._id === 3).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%'),
@@ -126,12 +126,12 @@ let getReviewsByFeature = (productId) => {
     .then(result => {
       //console.log('getReviewsByFeature: ', result[0])
       var reviewsByFeature = {
-        easeToUse: result[0].easeToUseAvg.toFixed(1),
-        voiceRecognition: result[0].voiceRecognitionAvg.toFixed(1),
-        techSupport: result[0].techSupport.toFixed(1),
-        valueForMoney: result[0].valueForMoney.toFixed(1),
-        qualityOfMaterial: result[0].qualityOfMaterial.toFixed(1),
-        batteryLife: result[0].batteryLife.toFixed(1)
+        easeToUse: result[0] ? result[0].easeToUseAvg.toFixed(1) : 0,
+        voiceRecognition: result[0] ? result[0].voiceRecognitionAvg.toFixed(1) : 0,
+        techSupport: result[0] ? result[0].techSupport.toFixed(1) : 0,
+        valueForMoney: result[0] ? result[0].valueForMoney.toFixed(1) : 0,
+        qualityOfMaterial: result[0] ? result[0].qualityOfMaterial.toFixed(1) : 0,
+        batteryLife: result[0] ? result[0].batteryLife.toFixed(1) : 0
 
       };
 

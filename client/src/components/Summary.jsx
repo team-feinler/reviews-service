@@ -3,30 +3,28 @@ import SummaryRatings from './SummaryRatings.jsx';
 import SummaryByFeature from './SummaryByFeature.jsx';
 import SummaryReview from './SummaryReview.jsx';
 import axios from 'axios';
-import "./style.css";
+//import './style.css';
 
 class Summary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productId: 1005,
+      productId: 1000,
       summaryRating: {},
       leftYlabel: ['5 star', '4 star', '3 star', '2 star', '1 star'],
       rightYlabel: [],
       ratingPercent: [],
       summaryByFeature: {}
     };
-    //this.getRatings = this.getRatings.bind(this);
+
     this.getProductReviewSummary = this.getProductReviewSummary.bind(this);
     this.getProductSummaryByFeature = this.getProductSummaryByFeature.bind(this);
-    this.getProductReviewSummary(this.state.productId);
-    this.getProductSummaryByFeature(this.state.productId);
 
   }
 
   componentDidMount() {
-    // this.getProductReviewSummary(this.state.productId);
-    // this.getProductSummaryByFeature(this.state.productId);
+    this.getProductReviewSummary(this.props.productId);
+    this.getProductSummaryByFeature(this.props.productId);
 
   }
 
@@ -36,7 +34,7 @@ class Summary extends React.Component {
   getProductReviewSummary(productId) {
     return axios.post(`http://localhost:4006/Reviews/getReviewSummary/${productId}`)
       .then(result => {
-        console.log('Summary file rating result.data :', result.data);
+
         // need to refactor code below- to update API call to return array
         let rightLabel = [];
         rightLabel.push(result.data.fiveStar);
@@ -45,21 +43,15 @@ class Summary extends React.Component {
         rightLabel.push(result.data.twoStar);
         rightLabel.push(result.data.oneStar);
 
-        console.log('rightLabel: ', rightLabel);
         let ratingPct = rightLabel.map(element => parseFloat(element));
-        console.log('ratingPct: ', ratingPct);
         this.setState({
           summaryRating: result.data,
           ratingPercent: ratingPct,
           rightYlabel: rightLabel
-
         });
-        //this.getRatings(result.data);
-        //return result.data;
 
       })
       .then(result => {
-        console.log('Get state: ', this.state);
         //   //this.getRatings(result.data);
 
       })
@@ -72,7 +64,6 @@ class Summary extends React.Component {
     console.log('getProductSummaryByFeature called');
     return axios.get(`http://localhost:4006/Reviews/getReviewsByFeature/${productId}`)
       .then(result => {
-        console.log('feature result.data : ', result.data);
         this.setState({
           summaryByFeature: result.data
         });
@@ -83,9 +74,6 @@ class Summary extends React.Component {
 
 
   render() {
-    console.log('this.state.rightYlabel:', this.state.rightYlabel);
-    console.log('this.state.leftYlabel:', this.state.leftYlabel);
-    console.log('this.state.ratingPercent:', this.state.ratingPercent);
 
     return (
       <div>

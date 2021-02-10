@@ -38,10 +38,13 @@ body {
 }
 
 .flex-container {
+  position: relative;
   display: flex;
   flex-direction: row;
   font-size: 30 px;
-  text-align: left
+  text-align: left;
+  margin-top: 100px;
+
   /* flex-wrap: nowrap; */
 }
 .flex-item-left {

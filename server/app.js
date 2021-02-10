@@ -2,23 +2,17 @@ const express = require('express');
 let app = express();
 const bodyParser = require('body-parser');
 const db = require('../database-mongoose/reviews.service');
+var cors = require('cors');
+app.use(cors());
 
 app.use(express.static(__dirname + '/../public/dist'));
+app.use('/:id', express.static(__dirname + '/../public/dist'));
 //app.use(express.static('client/dist'));
 app.use(express.static(__dirname + '/../client'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.post('/Reviews', (req, res) => {
-//   res.send('API post');
-
-// });
-
-// app.get('/Reviews', (req, res) => {
-//   res.status(200).send('API get Reviews');
-
-// });
 
 app.get('/Reviews/getReviews/:productId', (req, res) => {
 
@@ -41,7 +35,7 @@ app.get('/Reviews/getReviews/:productId', (req, res) => {
 
 app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
-  console.log('review summary post called :', prodId);
+  console.log('review summary get called :', prodId);
   console.log('body: ', req.body);
   console.log('params:', req.params);
   db.getReviewSummary(parseInt(prodId.productId))
