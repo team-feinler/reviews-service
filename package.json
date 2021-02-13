@@ -22,7 +22,9 @@
     "webpk": "webpack -d --watch",
     "server-dev": "nodemon server/server.js",
     "seedData": "node database-mongoose/dataGenerator.js",
-    "test": "jest"
+    "test": "jest",
+    "deploy1": "aws s3 cp . s3://s3-fec-reviews --recursive",
+    "deploy2": "aws s3 sync . s3://s3-fec-reviews"
   },
   "resolutions": {
     "styled-components": "^5"
@@ -34,6 +36,7 @@
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "mongoose": "^5.11.12",
+    "nodemon": "^2.0.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-star-rating-component": "^1.4.1",

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/CustomerReviews', { useNewUrlParser: true, useUnifiedTopology: true });
+
 mongoose.connect('mongodb://localhost/CustomerReviews', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const conn = mongoose.connection;
