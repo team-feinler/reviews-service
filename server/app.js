@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const db = require('../database-mongoose/reviews.service');
 var cors = require('cors');
 app.use(cors());
-
+app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../public/dist'));
 app.use('/:id', express.static(__dirname + '/../public/dist'));
 //app.use(express.static('client/dist'));
