@@ -24,10 +24,12 @@ class App extends React.Component {
   //get data
   getProductIdFromUrl() {
     var url = window.location.href;
+    console.log('url: ', url);
     url = url.substring(0, url.length - 1);
     let countSlash = [...url].filter(char => char === '/');
     console.log('countSlash: ', countSlash);
     let productIdVal = (countSlash.length === 3) ? url.substring(url.lastIndexOf('/') + 1) : 1000;
+    console.log(productIdVal);
 
     this.state = {
       productId: parseInt(productIdVal)
