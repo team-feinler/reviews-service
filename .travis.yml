@@ -1,37 +1,37 @@
-language: node_js
+# language: node_js
 
-node_js:
- - "stable"
+# node_js:
+#  - "stable"
 
- services:
- - mongodb
+#  services:
+#  - mongodb
 
- cache:
-  directories:
-    - node_modules
+#  cache:
+#   directories:
+#     - node_modules
 
-deploy:
-- provider: s3
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  local_dir: deploy_code_upload
-  skip_cleanup: true
-  on: &2
-    repo: "blitva/reviews-service"
-  bucket: "fec-reviews-cicd"
-  region: us-east-1
-- provider: codedeploy
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  bucket: "fec-reviews-cicd"
-  key: latest.zip
-  bundle_type: zip
-  application: "ReviewsService"
-  deployment_group: "ReviewServiceCICD"
-  region: "us-east-1"
-  on: *2
+# deploy:
+# - provider: s3
+#   access_key_id: $AWS_KEY
+#   secret_access_key: $AWS_SECRET
+#   local_dir: deploy_code_upload
+#   skip_cleanup: true
+#   on: &2
+#     repo: "blitva/reviews-service"
+#   bucket: "fec-reviews-cicd"
+#   region: us-east-1
+# - provider: codedeploy
+#   access_key_id: $AWS_KEY
+#   secret_access_key: $AWS_SECRET
+#   bucket: "fec-reviews-cicd"
+#   key: latest.zip
+#   bundle_type: zip
+#   application: "ReviewsService"
+#   deployment_group: "ReviewServiceCICD"
+#   region: "us-east-1"
+#   on: *2
 
- script:
-  - zip -r latest
-  - mkdir -p deploy_code_upload
-  - mv latest.zip deploy_code_upload/latest.zip
+#  script:
+#   - zip -r latest
+#   - mkdir -p deploy_code_upload
+#   - mv latest.zip deploy_code_upload/latest.zip

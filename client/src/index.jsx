@@ -12,11 +12,14 @@ class App extends React.Component {
     };
 
     this.getProductIdFromUrl = this.getProductIdFromUrl.bind(this);
-    this.getProductIdFromUrl();
+    // console.log('getProductIdFromUrl called');
+    //this.getProductIdFromUrl();
 
   }
 
   componentDidMount() {
+    console.log('componentDidMount ');
+    // this.getProductIdFromUrl();
 
 
   }
@@ -29,11 +32,18 @@ class App extends React.Component {
     let countSlash = [...url].filter(char => char === '/');
     console.log('countSlash: ', countSlash);
     let productIdVal = (countSlash.length === 3) ? url.substring(url.lastIndexOf('/') + 1) : 1000;
+    let v1 = url.split('/')[3] || 1000;
     console.log(productIdVal);
+    console.log(v1);
 
-    this.state = {
-      productId: parseInt(productIdVal)
-    };
+    // this.state = {
+    //   productId: parseInt(productIdVal)
+    // };
+
+    // this.setState({
+    //   productId: parseInt(productIdVal)
+    // });
+    return v1;
 
   }
 
@@ -42,8 +52,8 @@ class App extends React.Component {
     return (
       <div>
         <div className="flex-container">
-          <div className="flex-item-left"><Summary productId={this.state.productId} /></div>
-          <div className="flex-item-right"><Reviews productId={this.state.productId} /></div>
+          <div className="flex-item-left"><Summary productId={this.getProductIdFromUrl()} /></div>
+          <div className="flex-item-right"><Reviews productId={this.getProductIdFromUrl()} /></div>
         </div>
       </div>
 
