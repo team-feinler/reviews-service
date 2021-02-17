@@ -12,38 +12,18 @@ class App extends React.Component {
     };
 
     this.getProductIdFromUrl = this.getProductIdFromUrl.bind(this);
-    // console.log('getProductIdFromUrl called');
-    //this.getProductIdFromUrl();
 
   }
 
-  componentDidMount() {
-    console.log('componentDidMount ');
-    // this.getProductIdFromUrl();
-
-
-  }
 
   //get data
   getProductIdFromUrl() {
     var url = window.location.href;
-    console.log('url: ', url);
-    url = url.substring(0, url.length - 1);
-    let countSlash = [...url].filter(char => char === '/');
-    console.log('countSlash: ', countSlash);
-    let productIdVal = (countSlash.length === 3) ? url.substring(url.lastIndexOf('/') + 1) : 1000;
-    let v1 = url.split('/')[3] || 1000;
-    console.log(productIdVal);
-    console.log(v1);
-
-    // this.state = {
-    //   productId: parseInt(productIdVal)
-    // };
-
-    // this.setState({
-    //   productId: parseInt(productIdVal)
-    // });
-    return v1;
+    // url = url.substring(0, url.length - 1);
+    // let countSlash = [...url].filter(char => char === '/');
+    //let productIdVal = (countSlash.length === 3) ? url.substring(url.lastIndexOf('/') + 1) : 1000;
+    let productIdVal = url.split('/')[3] || 1000;
+    return productIdVal;
 
   }
 
