@@ -161,6 +161,11 @@ let getReviewExcerpts = (productId) => {
 
 };
 
+let getSearchResults = (productId, searchString) => {
+  //to do
+
+}
+
 
 module.exports.insertSeedData = insertSeedData;
 module.exports.getReviews = getReviews;

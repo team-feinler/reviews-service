@@ -1,6 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReviewsPopup from './ReviewsPopup.jsx';
+
+const ImageContainer = styled.div`
+display: flex;
+flex-direction: row;
+padding: 5px;`;
+
+const Image = styled.img`
+margin: 5px;
+ width: 153px;
+ height: 153px;
+ `;
+
+const PopUpModel = styled.div`
+z-index: auto;
+display: ${({ show }) => (show ? 'block' : 'none')};
+position: fixed;
+top:0;
+left:0;
+height:100vh;
+width: 100vw;
+background: rgba(0,0,0,0,5);`;
+
+const CustomerImagesDiv = styled.div`
+ color: #007185;
+ font-family: "Amazon Ember",Arial,sans-serif;
+ font-size: 14px;
+ line-height: 20px;
+ `;
+
 class ReviewsCustomerImages extends React.Component {
 
   constructor(props) {
@@ -18,26 +47,6 @@ class ReviewsCustomerImages extends React.Component {
   }
 
   render() {
-    const ImageContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    padding: 5px;`;
-
-    const Image = styled.img`
-    margin: 5px;
-     width: 153px;
-     height: 153px;
-     `;
-
-    const PopUpModel = styled.div`
-    z-index: auto;
-    display: ${({ show }) => (show ? 'block' : 'none')};
-    position: fixed;
-    top:0;
-    left:0;
-    height:100vh;
-    width: 100vw;
-    background: rgba(0,0,0,0,5);`;
 
     const reviews = this.props.reviews ? this.props.reviews : [];
     const allImages = reviews ? reviews.map(review => review.imageUrls).flat() : [];
@@ -55,7 +64,7 @@ class ReviewsCustomerImages extends React.Component {
             })}
           </ImageContainer>
         </div>
-        <div><a onClick={(event) => this.displayAllImages(event)}>See all customer images</a></div>
+        <CustomerImagesDiv><a onClick={(event) => this.displayAllImages(event)}>See all customer images</a></CustomerImagesDiv>
 
         {this.state.showPopUpModal ?
           <ReviewsPopup displayAllImages={this.displayAllImages} allImages={allImages} /> : null}
