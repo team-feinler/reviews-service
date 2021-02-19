@@ -1,6 +1,6 @@
 import React from "react";
 import StarRating from 'react-star-rating-component';
-import ChartReview from './Chart.jsx';
+import ChartReview from './chart.jsx';
 
 const SummaryRatings = (props) => {
   console.log('props.summaryRating 1 :', props);

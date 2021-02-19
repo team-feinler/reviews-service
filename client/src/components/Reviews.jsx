@@ -1,9 +1,9 @@
 import React from "react";
 import ReviewsCustomerImages from './ReviewsCustomerImages.jsx';
 import ReviewsPhrases from './ReviewsPhrases.jsx';
-import ReviewsFromUs from './ReviewsFromUs.jsx';
+import ReviewsFromUs from './ReviewsFromUS.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
-import ReviewsPopup from './ReviewsPopup.jsx';
+import ReviewsPopup from './ReviewsPopUp.jsx';
 import axios from 'axios';
 //import "./style.css";
 
@@ -30,7 +30,8 @@ class Reviews extends React.Component {
 
   getCustomerReviews(productId) {
     //console.log('getCustomerReviews:', productId);
-    return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
+    // return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
+    return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
       .then(results => {
         console.log('Review query results: ', results);
         this.setState({
@@ -43,7 +44,8 @@ class Reviews extends React.Component {
   }
 
   getReviewExcerpt(productId) {
-    return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
+    //return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
+    return axios.get(`http://174.129.73.213:4006/Reviews/getReviewExcerpts/${productId}`)
       .then(wordsArray => {
         //console.log('Review phrases results: ', wordsArray);
         this.setState({

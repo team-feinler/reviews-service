@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReviewsPopup from './ReviewsPopup.jsx';
+import ReviewsPopup from './ReviewsPopUp.jsx';
 
 const ImageContainer = styled.div`
 display: flex;

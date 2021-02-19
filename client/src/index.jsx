@@ -17,23 +17,25 @@ class App extends React.Component {
     super(props);
     this.state = {
       //productId: 1005
-      productId: null
+      productId: null,
+      test: null
     };
-    this.getProductIdFromUrl = this.getProductIdFromUrl.bind(this);
+    //this.getProductIdFromUrl = this.getProductIdFromUrl.bind(this);
 
   }
 
   // need to discuss with TM
-  // componentDidMount() {
-  //   this.getProductIdFromUrl();
-  //   this.setState({
-  //     productId: 1060
-  //   });
+  componentDidMount() {
 
-  //   console.log('CDM state : ', this.state);
+    this.setState({
+      productId: this.getProductIdFromUrl()
+      //test: this.getProductIdFromUrl()
+    });
+
+    //console.log('CDM state : ', this.state);
 
 
-  // }
+  }
 
   //get data
   getProductIdFromUrl() {
@@ -58,6 +60,7 @@ class App extends React.Component {
 
 
   render() {
+    console.log('render test: ', this.state.test);
     return (
       <AmazonHomeContainer>
         <div><hr /></div>
