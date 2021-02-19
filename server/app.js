@@ -122,8 +122,13 @@ app.post('/Reviews/getReviewExcerpts/:productId', (req, res) => {
     .catch(err => console.log('err: ', err));
 });
 
-// app.listen(port, function () {
-//   console.log(`listening at http://localhost:${port}`);
-// });
+//
+app.get('/Reviews/searchReviews', (req, res) => {
+  console.log(request);
+  //todo
+
+
+
+})
 
 module.exports = app;

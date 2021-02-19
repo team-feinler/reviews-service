@@ -1,6 +1,6 @@
 import React from 'react';
 import Chart from "chart.js";
-//var Chart = require('chart.js');
+
 
 const ChartReview = (props) => {
 
@@ -13,8 +13,7 @@ const ChartReview = (props) => {
       data: {
         datasets: [
           {
-            backgroundColor: ["#DE7921", "#DE7921", "#DE7921", "#DE7921", "#DE7921"],
-            // data: ["60", "10", "30", "2", "10"],
+            backgroundColor: ["#FFA41C", "#FFA41C", "#FFA41C", "#FFA41C", "#FFA41C"],
             data: props.ratingPercent ? props.ratingPercent : null,
             label: null
           }
@@ -64,7 +63,6 @@ const ChartReview = (props) => {
               display: true,
               position: 'right',
               type: 'category',
-              // labels: ["5%", "60%", "10%", "15%", "10%"],
               labels: props.rightYlabel,
               gridLines: {
                 display: false,
@@ -77,7 +75,6 @@ const ChartReview = (props) => {
     });
 
   }
-
 
 
   return (
