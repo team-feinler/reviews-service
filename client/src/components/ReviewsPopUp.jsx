@@ -67,7 +67,7 @@ const ReviewsPopup = (props) => {
     background-image: 'url'+'(https://m.media-amazon.com/images/S/sash/McBZv0ZvnbehkIx.png)';
     background-size: 400px 900px;
     background-repeat: no-repeat;
-
+    cursor: pointer;
   `;
 
   const CloseIconDiv = styled.div`

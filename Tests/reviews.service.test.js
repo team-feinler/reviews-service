@@ -57,7 +57,7 @@ describe("Reviews module test", () => {
       await Service.insertSeedData(mockReview);
       const insertedReview = await ReviewsModel.findOne({ reviewId: 1005 });
       const actual = insertedReview.configuration;
-      console.log('actual: ', actual);
+      //console.log('actual: ', actual);
       const expected = 'Alexa auto sense temp 1005';
       expect(actual).toEqual(expected);
 

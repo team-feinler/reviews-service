@@ -82,7 +82,7 @@ let getReviewSummary = (productId) => {
 
     })
     .then(ratingsByCustomer => {
-      console.log('ratingsByCustomer : ', ratingsByCustomer);
+      //console.log('ratingsByCustomer : ', ratingsByCustomer);
       //calculate the customer rating count in % and save data in object to return
       var reviewSummary = {
         averageRating: ratingsByCustomer[0] ? ratingsByCustomer[0].avgRating.toFixed(2) : 0,

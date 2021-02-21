@@ -1,37 +1,55 @@
 language: node_js
 
 node_js:
- - "stable"
+ - 10.15.3
 
  services:
  - mongodb
 
- cache:
-  directories:
-    - node_modules
+ cache: npm
+  # directories:
+  #   - node_modules
+
+ install:
+  - npm ci
+
+
+script:
+  - npm test
+  - npm run webpk
 
 deploy:
-- provider: s3
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  local_dir: deploy_code_upload
-  skip_cleanup: true
-  on: &2
-    repo: "blitva/reviews-service"
-  bucket: "fec-reviews-cicd"
-  region: us-east-1
-- provider: codedeploy
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  bucket: "fec-reviews-cicd"
-  key: latest.zip
-  bundle_type: zip
-  application: "ReviewsService"
-  deployment_group: "ReviewServiceCICD"
-  region: "us-east-1"
-  on: *2
+ provider: "Amazon insatnce"
+ skip-cleanup: true
+ github-token: $GITHUB_TOKEN
+ local_dir: build
+ on:
+  branch: master
 
- script:
-  - zip -r latest
-  - mkdir -p deploy_code_upload
-  - mv latest.zip deploy_code_upload/latest.zip
+
+
+deploy:
+# - provider: s3
+#   access_key_id: $AWS_KEY
+#   secret_access_key: $AWS_SECRET
+#   local_dir: deploy_code_upload
+#   skip_cleanup: true
+#   on: &2
+#     repo: "blitva/reviews-service"
+#   bucket: "fec-reviews-cicd"
+#   region: us-east-1
+# - provider: codedeploy
+#   access_key_id: $AWS_KEY
+#   secret_access_key: $AWS_SECRET
+#   bucket: "fec-reviews-cicd"
+#   key: latest.zip
+#   bundle_type: zip
+#   application: "ReviewsService"
+#   deployment_group: "ReviewServiceCICD"
+#   region: "us-east-1"
+#   on: *2
+
+#  script:
+#   - zip -r latest
+#   - mkdir -p deploy_code_upload
+#   - mv latest.zip deploy_code_upload/latest.zip

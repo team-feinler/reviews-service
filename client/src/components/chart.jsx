@@ -38,7 +38,8 @@ const ChartReview = (props) => {
               steps: 8,
               stepSize: 10,
               max: 100,
-              min: 0
+              min: 0,
+              fontColor: "#007185"
             },
             stacked: true
           }],
@@ -55,6 +56,9 @@ const ChartReview = (props) => {
               gridLines: {
                 display: false,
                 drawBorder: false
+              },
+              ticks: {
+                fontColor: "#007185",
               }
 
             },

@@ -1,12 +1,45 @@
 import React from 'react';
 import StarRating from 'react-star-rating-component';
+import styled from 'styled-components';
+
+const CollapsibleLabel = styled.a`
+  box-sizing: border-box;
+  color: rgb(0, 113, 133);
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember", Arial, sans-serif;
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  outline-color: rgb(0, 113, 133);
+  outline-style: none;
+  outline-width: 0px;
+  padding-left: 11px;
+  position: relative;
+  text-decoration-color: rgb(0, 113, 133);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  text-decoration-thickness: auto;
+  text-size-adjust: 100%;
+`;
+
+const FeatureLabeltd = styled.td`
+  border-collapse: collapse;
+  box-sizing: border-box;
+  color: rgb(15, 17, 17);
+  font-family: "Amazon Ember", Arial, sans-serif;
+  font-size: 14px;
+  height: auto;
+  line-height: 20px;
+  text-size-adjust: 100%;
+  padding-right: 75px;`;
 
 class SummaryByFeature extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       collapsibleOpen: false,
-      featureToggleOpen: false
+      featureToggleOpen: true
     };
 
     this.toggleCollapsible = this.toggleCollapsible.bind(this);
@@ -48,12 +81,12 @@ class SummaryByFeature extends React.Component {
 
   render() {
     const summaryByFeature = this.props.summaryByFeature;
-    console.log('summaryByFeature: ', summaryByFeature);
+    //console.log('summaryByFeature: ', summaryByFeature);
     return (
       <div>
         <div>
-          <a onClick={(event) => this.toggleCollapsible(event)}> {!this.state.collapsibleOpen ? (<i className="fa fa-angle-down"></i>) : (<i className="fa fa-angle-up"></i>)}
-          How are ratings calculated ?</a>
+          <CollapsibleLabel onClick={(event) => this.toggleCollapsible(event)}> {!this.state.collapsibleOpen ? (<i className="fa fa-angle-down"></i>) : (<i className="fa fa-angle-up"></i>)}
+          How are ratings calculated ?</CollapsibleLabel>
           {this.state.collapsibleOpen ? (<div> To calculate the overall star rating and percentage breakdown by star, we don’t use a simple average. Instead, our system considers things like how recent a review is and if the reviewer bought the item on Amazon. It also analyzes reviews to verify trustworthiness.</div>) : null}
 
         </div>
@@ -67,7 +100,7 @@ class SummaryByFeature extends React.Component {
                 // console.log('Object.entries: ', key);
                 return (
                   <tr id={key}>
-                    <td className="padding-on-right">{key}</td>
+                    <FeatureLabeltd>{key}</FeatureLabeltd>
                     <td><StarRating
                       name="rate1"
                       starCount={5}
@@ -88,8 +121,8 @@ class SummaryByFeature extends React.Component {
         </div>
 
         <div>
-          <a onClick={(event) => this.toggleFeatureCollapsible(event)}> {!this.state.featureToggleOpen ? (<i className="fa fa-angle-down"></i>) : (<i className="fa fa-angle-up"></i>)}
-            {!this.state.featureToggleOpen ? 'See more' : 'See Less'}</a>
+          <CollapsibleLabel onClick={(event) => this.toggleFeatureCollapsible(event)}> {!this.state.featureToggleOpen ? (<i className="fa fa-angle-down"></i>) : (<i className="fa fa-angle-up"></i>)}
+            {!this.state.featureToggleOpen ? 'See more' : 'See Less'}</CollapsibleLabel>
         </div>
         <div><hr /></div>
 

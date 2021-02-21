@@ -62,7 +62,7 @@ class Summary extends React.Component {
 
 
   getProductSummaryByFeature(productId) {
-    console.log('getProductSummaryByFeature called');
+    //console.log('getProductSummaryByFeature called');
     return axios.get(`http://174.129.73.213:4006/Reviews/getReviewsByFeature/${productId}`)
       .then(result => {
         this.setState({

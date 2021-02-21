@@ -12,6 +12,14 @@ const AmazonHomeContainer = styled.div`
     background-color: #fff;
 }`;
 
+const FlexContainerDiv = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  font-size: 30 px;
+  text-align: left;
+  margin-top: auto;`;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -56,20 +64,17 @@ class App extends React.Component {
 
   }
 
-
-
-
   render() {
-    console.log('render test: ', this.state.test);
+    // console.log('render test: ', this.state.test);
     return (
       <AmazonHomeContainer>
         <div><hr /></div>
-        <div className="flex-container">
+        <FlexContainerDiv>
           {/* <div className="flex-item-left"><Summary productId={this.state.productId} /></div>
           <div className="flex-item-right"><Reviews productId={this.state.productId} /></div> */}
           <div className="flex-item-left"><Summary productId={this.getProductIdFromUrl()} /></div>
           <div className="flex-item-right"><Reviews productId={this.getProductIdFromUrl()} /></div>
-        </div>
+        </FlexContainerDiv>
       </AmazonHomeContainer>
 
 
