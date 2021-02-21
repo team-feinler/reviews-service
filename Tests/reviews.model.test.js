@@ -54,7 +54,7 @@ describe("Reviews model test", () => {
       await mockReview.save();
       const insertedReview = await ReviewsModel.findOne({ reviewId: 249249 });
       const actual = insertedReview.title;
-      console.log('actual: ', actual);
+      //console.log('actual: ', actual);
       const expected = 'echo speaker';
       expect(actual).toEqual(expected);
 

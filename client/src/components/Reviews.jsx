@@ -33,7 +33,7 @@ class Reviews extends React.Component {
     // return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
     return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
       .then(results => {
-        console.log('Review query results: ', results);
+        //console.log('Review query results: ', results);
         this.setState({
           reviews: results.data
         });

@@ -18,11 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/Reviews/getReviews/:productId', (req, res) => {
 
   let prodId = req.params; //{id: "5"}
-  console.log('getReviews :', prodId);
+  //console.log('getReviews :', prodId);
   db.getReviews(parseInt(prodId.productId))
     .then(results => {
       if (results.length > 0) {
-        console.log('results :', results);
+        //console.log('results :', results);
         res.status(200).send(results);
       } else {
         var reviews = [];
@@ -36,12 +36,12 @@ app.get('/Reviews/getReviews/:productId', (req, res) => {
 
 app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
-  console.log('review summary get called :', prodId);
-  console.log('body: ', req.body);
-  console.log('params:', req.params);
+  // console.log('review summary get called :', prodId);
+  // console.log('body: ', req.body);
+  // console.log('params:', req.params);
   db.getReviewSummary(parseInt(prodId.productId))
     .then(results => {
-      console.log(results);
+      //console.log(results);
       if (results) {
         res.status(200).send(results);
       } else {
@@ -56,12 +56,12 @@ app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
 // to test using postman: http://localhost:4006/Reviews/getReviewSummary/1001
 app.post('/Reviews/getReviewSummary/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
-  console.log('review summary post called :', prodId);
-  console.log('body: ', req.body);
-  console.log('params:', req.params);
+  // console.log('review summary post called :', prodId);
+  // console.log('body: ', req.body);
+  // console.log('params:', req.params);
   db.getReviewSummary(parseInt(prodId.productId))
     .then(results => {
-      console.log(results);
+      //console.log(results);
       if (results) {
         res.status(200).send(results);
       } else {
@@ -75,7 +75,7 @@ app.post('/Reviews/getReviewSummary/:productId', (req, res) => {
 
 app.get('/Reviews/getReviewsByFeature/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
-  console.log('review feature :', prodId);
+  //console.log('review feature :', prodId);
   db.getReviewsByFeature(parseInt(prodId.productId))
     .then(results => {
       if (results) {
@@ -105,9 +105,9 @@ app.get('/Reviews/getReviewExcerpts/:productId', (req, res) => {
 });
 
 app.post('/Reviews/getReviewExcerpts/:productId', (req, res) => {
-  console.log('review excepts post called')
-  console.log('body: ', req.body);
-  console.log('params:', req.params);
+  // console.log('review excepts post called')
+  // console.log('body: ', req.body);
+  // console.log('params:', req.params);
   let prodId = req.params; //{id: "5"}
   db.getReviewExcerpts(parseInt(prodId.productId))
     .then(results => {
@@ -124,7 +124,7 @@ app.post('/Reviews/getReviewExcerpts/:productId', (req, res) => {
 
 //
 app.get('/Reviews/searchReviews', (req, res) => {
-  console.log(request);
+  //console.log(request);
   //todo
 
 

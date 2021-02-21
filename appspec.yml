@@ -1,5 +1,9 @@
-version: 0.0
-os: linux
-files:
-  - source: ./
-    destination: /home/ubuntu/ReviewsServiceCICD/reviewServiceCICD
+# version: 0.0
+# os: linux
+# files:
+#   - source: /
+#     destination: /home/ubuntu/ReviewsServiceCICD/reviewServiceCICD
+# hook:
+#   APplicationStop:
+#    - location: scripts/application_stop.sh
+#    timeout: 300

@@ -33,6 +33,18 @@ class ReviewsFromUs extends React.Component {
       border: 2px colid white;
       border-radius: 3px;`;
 
+    const ReviewContainer = styled.div`
+      box-sizing: border-box;
+      color: rgb(15, 17, 17);
+      display: block;
+      font-family: "Amazon Ember", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 22px;
+      max-width: 1120px;
+      overflow-wrap: break-word;
+      position: relative;
+      text-size-adjust: 100%;`;
 
     const Row = styled.div`
       display: table;
@@ -69,9 +81,11 @@ class ReviewsFromUs extends React.Component {
       position: relative;
       color: #0F1111;
       font-size: 13px;
-      line-height: 1.255;
+      line-height: 10px;
       unicode-bidi: isolate;
       font-family: "Amazon Ember",Arial,sans-serif;
+      text-size-adjust: 100%;
+      cursor: pointer;
     `;
 
     const LetterSpace = styled.span`
@@ -88,74 +102,107 @@ class ReviewsFromUs extends React.Component {
 
     const ReviewDate = styled.div`
       color: #565959;
+      box-sizing: border-box;
       font-size: 14px;
       line-height: 20px;
       font-family: "Amazon Ember",Arial,sans-serif;
-      font-weight: bold;`;
+      text-size-adjust: 100%;`;
 
     const ProductDetails = styled.span`
-      color: #565959!important;
+      color: #565959;
+      box-sizing: border-box;
+      line-height: 20px;
       font-family: "Amazon Ember",Arial,sans-serif;
-      font-size: 14px;`;
+      font-size: 14px;
+      text-size-adjust: 100%;`;
 
-    const VerifiedPurchase = styled.span``;
+    const VerifiedPurchase = styled.span`
+      color: #c45500;
+      box-sizing: border-box;
+      line-height: 16px;
+      font-family: "Amazon Ember",Arial,sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-size-adjust: 100%;`;
 
     const ReviewPanelCollapsible = styled.div`
-    overflow: hidden;
+    box-sizing: border-box;
+    color: #0F1111;
+    line-height: 20px;
+    text-size-adjust: 100%;
+    overflow-wrap: break-word;
     position: relative;
     font-family: "Amazon Ember",Arial,sans-serif;
-    font-size: 14px;
-    /* min-height: 50px; */
-`;
+    font-size: 14px;`;
+
     const ReviewPanelReadMore = styled.div`
+    box-sizing: border-box;
+    line-height: 20px;
+    overflow-wrap: break-word;
+    text-size-adjust: 100%;
     color: #007185;
     cursor: pointer;
     font-family: "Amazon Ember",Arial,sans-serif;
     font-size: 14px;
-    margin-bottom: 10px!important;
+    font-style: normal !important;
+    /* margin-bottom: 10px!important; */
    `;
 
     const HelpfulWrapper = styled.div`
-    display: table;
-    content: "";
-    margin-bottom: 15px!important;
+    /* display: table; */
+    /* content: ""; */
+    /* margin-bottom: 15px!important; */
+    display: block;
+    overflow-wrap: break-word;
+    width: 680px;
+    text-size-adjust: 100%;
+    color: #0F1111;
     font-family: "Amazon Ember",Arial,sans-serif;
     font-size: 14px;
     line-height: 20px;
-    box-sizing: border-box;
-
-    `;
+    box-sizing: border-box;`;
 
     const HelpfulCount = styled.div`
     color: #565959!important;;
-    cursor: pointer;
+    /* cursor: pointer; */
     font-family: "Amazon Ember",Arial,sans-serif;
     font-size: 14px;
-    line-height: 20px!important;
+    line-height: 20px;
+    overflow-wrap: break-word;
+    text-size-adjust: 100%;
     box-sizing: border-box;`;
 
     const HelpfulButton = styled.button`
-    margin-right: 5px;
-    vertical-align: middle;
-    float: left!important;
     box-sizing: border-box;
-    display: block;
-    font-family: "Amazon Ember",Arial,sans-serif;
+    cursor: pointer;
     color: #0F1111;
+    display: block;
+    float: left!important;
+    font-family: "Amazon Ember",Arial,sans-serif;
     font-size: 14px;
-    line-height: 20px;`;
+    line-height: 20px;
+    margin-right: 5px;
+    overflow-wrap: break-word;
+    text-size-adjust: 100%;
+    vertical-align: middle;`;
 
     const ReportAbuse = styled.span`
-    color: #565959!important;
-    font-size: 14px!important;
-    line-height: 20px!important;
-    font-weight: 400!important;
-    font-style: normal!important;
-    text-transform: none!important;
-    text-decoration: none!important;
+    color: #565959;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    font-style: normal;
+    text-transform: none;
+    text-decoration: none;
     font-family: "Amazon Ember",Arial,sans-serif;
     cursor: pointer;
-    box-sizing: border-box;`;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    text-decoration-color: rgb(86, 89, 89);
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-size-adjust: 100%;
+    text-transform: none;`;
 
     return (
       <div >
@@ -163,7 +210,8 @@ class ReviewsFromUs extends React.Component {
           <h3>Top reviews from the United States</h3>
           {reviews.map(review => {
             return (
-              <div>
+              <ReviewContainer>
+                {/* <div> */}
                 <Row>
                   <ProfileAvatarWrapper>
                     <ProfileAvatar><ProfileAvatarImg src={review ? review.profilePicUrl : null} /></ProfileAvatar>
@@ -190,14 +238,14 @@ class ReviewsFromUs extends React.Component {
 
                 <ReviewDate>Reviewed in the {review ? review.customerCountry : null} on {review ? review.reviewDate : null}</ReviewDate>
 
-                <ProductDetails>Color: {review ? review.color : null} | {review ? review.configuration : null}| {review ? 'Verified Purchase' : null}</ProductDetails>
+                <ProductDetails>Color: {review ? review.color : null} | {review ? review.configuration : null}| {review ? <VerifiedPurchase>Verified Purchase</VerifiedPurchase> : null}</ProductDetails>
 
                 <ReviewPanelCollapsible>{review ? review.description : null}</ReviewPanelCollapsible>
 
                 {/* to do : update the state at row level */}
                 <ReviewPanelReadMore>
                   <a onClick={(event) => this.toggleDescPanel(event)}>
-                    {!this.state.descReadMoreToggleOpen ? (<i className="fa fa-angle-down">Read more</i>) : (<i className="fa fa-angle-up">Read less</i>)}
+                    {!this.state.descReadMoreToggleOpen ? (<div className="fa fa-angle-down">Read more</div>) : (<div className="fa fa-angle-up">Read less</div>)}
                   </a>
                 </ReviewPanelReadMore>
 
@@ -210,9 +258,8 @@ class ReviewsFromUs extends React.Component {
                   </div>
                 </HelpfulWrapper>
 
-
-
-              </div>
+                {/* </div> */}
+              </ReviewContainer>
             )
 
           })}
