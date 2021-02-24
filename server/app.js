@@ -122,12 +122,34 @@ app.post('/Reviews/getReviewExcerpts/:productId', (req, res) => {
     .catch(err => console.log('err: ', err));
 });
 
-//
+//filter reviews based on phrase provided
 app.get('/Reviews/searchReviews', (req, res) => {
-  //console.log(request);
-  //todo
 
+  let productId = req.query.productId;
+  let searchString = req.query.searchText;
+  db.getSearchResults(productId, searchString)
+    .then(results => {
+      if (results) {
+        res.status(200).send(results);
+      } else {
+        res.status(404).send([]);
+      }
+    })
+    .catch(err => console.log('err :', err));
 
+});
+
+//incrementHelpfulCount
+app.post('/Reviews/incrementHelpfulCount/:reviewId', (req, res) => {
+  console.log('req params: ', req.params.reviewId);
+  db.incrementHelpfulCount(parseInt(req.params.reviewId))
+    .then(results => {
+      if (results) {
+        res.status(200).send(results);
+      } else {
+        res.status(404).send('Issue found in incrementHelpfulCount');
+      }
+    })
 
 })
 

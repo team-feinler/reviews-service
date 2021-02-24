@@ -27,7 +27,7 @@ const ReviewsPhrases = (props) => {
     <div >
       <h3>Read reviews that mention</h3>
       {phrases.map(phrase => {
-        return (<Button>{phrase}</Button>)
+        return (<Button onClick={(event) => props.searchCustomerReviews(event, phrase)}>{phrase}</Button>)
       })}
     </div>
 

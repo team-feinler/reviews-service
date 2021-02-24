@@ -16,7 +16,6 @@ let insertSeedData = (arrayOfObjects) => {
 };
 
 // /Reviews/getReviews/:productId
-
 let getReviews = (productId) => {
   const query = { productId: productId };
   const limit = 100;// 100 reviews limit
@@ -93,7 +92,7 @@ let getReviewSummary = (productId) => {
         twoStar: (countByReviews.find(obj => obj._id === 2) ? ((countByReviews.find(obj => obj._id === 2).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%'),
         oneStar: (countByReviews.find(obj => obj._id === 1) ? ((countByReviews.find(obj => obj._id === 1).reviewCount) / ratingsByCustomer[0].totalRatings * 100).toFixed(2).concat('%') : '0%')
       };
-      //console.log(reviewSummary);
+
       var promiseSummary = new Promise((resolve, reject) => {
         resolve(reviewSummary)
       });
@@ -124,7 +123,6 @@ let getReviewsByFeature = (productId) => {
     }
   ])
     .then(result => {
-      //console.log('getReviewsByFeature: ', result[0])
       var reviewsByFeature = {
         easeToUse: result[0] ? result[0].easeToUseAvg.toFixed(1) : 0,
         voiceRecognition: result[0] ? result[0].voiceRecognitionAvg.toFixed(1) : 0,
@@ -162,13 +160,57 @@ let getReviewExcerpts = (productId) => {
 };
 
 let getSearchResults = (productId, searchString) => {
-  //to do
+
+  return ReviewsModel.
+
+    find({ productId: productId, description: { $regex: '.*' + searchString + '.*' } }).
+    limit(12).
+    sort({ isHelpfulCount: -1 }).
+    select({
+      reviewId: 1,
+      rating: 1,
+      productId: 1,
+      color: 1,
+      configuration: 1,
+      category: 1,
+      isBestSeller: 1,
+      customerId: 1,
+      customerName: 1,
+      customerCountry: 1,
+      title: 1,
+      description: 1,
+      isHelpfulCount: 1,
+      isVerifiedPurchase: 1,
+      imageUrls: 1,
+      profilePicUrl: 1,
+      reviewDate: 1
+    })
+    .then(results => {
+      console.log(results);
+      var resultsPromise = new Promise((resolve, reject) => {
+        resolve(results)
+      })
+      return resultsPromise;
+
+    })
+    .catch(err => console.log(err))
 
 }
 
+let incrementHelpfulCount = (reviewId) => {
+  return ReviewsModel.updateOne({ reviewId: reviewId }, { $inc: { 'isHelpfulCount': 1 } })
+    .then(results => {
+      var resultsPromise = new Promise((resolve, reject) => { resolve(results) })
+      return resultsPromise;
+    })
+    .catch(err => console.log(err))
+
+}
 
 module.exports.insertSeedData = insertSeedData;
 module.exports.getReviews = getReviews;
 module.exports.getReviewSummary = getReviewSummary;
 module.exports.getReviewExcerpts = getReviewExcerpts;
 module.exports.getReviewsByFeature = getReviewsByFeature;
+module.exports.getSearchResults = getSearchResults;
+module.exports.incrementHelpfulCount = incrementHelpfulCount;

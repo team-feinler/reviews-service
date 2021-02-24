@@ -15,10 +15,13 @@ class Reviews extends React.Component {
       productId: 1005,
       reviews: [],
       phrases: [],
-      customerImages: []
+      customerImages: [],
+      filteredReviews: []
     };
     this.getCustomerReviews = this.getCustomerReviews.bind(this);
     this.getReviewExcerpt = this.getReviewExcerpt.bind(this);
+    this.searchCustomerReviews = this.searchCustomerReviews.bind(this);
+    this.incrementHelpfulCount = this.incrementHelpfulCount.bind(this);
 
   }
 
@@ -28,24 +31,62 @@ class Reviews extends React.Component {
 
   }
 
+  incrementHelpfulCount(event, reviewId) {
+    //update db and get latest
+    console.log('addHelpfulCount before reviewId:', reviewId)
+    return axios.post(`http://localhost:4006/Reviews/incrementHelpfulCount/${reviewId}`)
+      .then(results => {
+        //console.log(results);
+        this.getCustomerReviews(this.props.productId);
+      })
+      .catch(err => console.log('addHelpfulCount err :', err))
+
+  }
+
   getCustomerReviews(productId) {
     //console.log('getCustomerReviews:', productId);
-    // return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
-    return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
+    return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
+      // return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
       .then(results => {
         //console.log('Review query results: ', results);
         this.setState({
-          reviews: results.data
+          reviews: results.data,
+          filteredReviews: results.data
         });
+        //update filtered review for readMore tracking at review level
+        //insert readMoreSelected : true
+        var filteredreviews = this.state.filteredReviews;
+        for (var i = 0; i < filteredreviews.length; i++) {
+          filteredreviews[i]['readMoreSelected'] = true;
+        }
+        console.log('filteredreviews: ', filteredreviews);
 
       })
-      .catch(err => console.log('Error: ', err))
+      .catch(err => console.log('getCustomerReviews Error: ', err))
+
+  }
+
+  searchCustomerReviews(event, searchString) {
+    event.preventDefault();
+    console.log('The button was clicked.');
+    const params = {
+      productId: this.props.productId,
+      searchText: searchString
+    };
+    return axios.get('http://localhost:4006/Reviews/searchReviews', { params })
+      .then(results => {
+        console.log('searchCustomerReviews results: ', results);
+        this.setState({
+          filteredReviews: results.data
+        });
+      })
+      .catch(err => console.log('searchCustomerReviews Error:', err))
 
   }
 
   getReviewExcerpt(productId) {
-    //return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
-    return axios.get(`http://174.129.73.213:4006/Reviews/getReviewExcerpts/${productId}`)
+    return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
+      //return axios.get(`http://174.129.73.213:4006/Reviews/getReviewExcerpts/${productId}`)
       .then(wordsArray => {
         //console.log('Review phrases results: ', wordsArray);
         this.setState({
@@ -53,7 +94,7 @@ class Reviews extends React.Component {
 
         });
       })
-      .catch(err => console.log('Error: ', err))
+      .catch(err => console.log('getReviewExcerpt Error: ', err))
 
   }
 
@@ -65,8 +106,8 @@ class Reviews extends React.Component {
         <ReviewsCustomerImages reviews={this.state.reviews} />
         {/* </ErrorBoundary> */}
 
-        <ReviewsPhrases phrases={this.state.phrases} />
-        <ReviewsFromUs reviews={this.state.reviews} />
+        <ReviewsPhrases phrases={this.state.phrases} searchCustomerReviews={this.searchCustomerReviews} />
+        <ReviewsFromUs reviews={this.state.filteredReviews} incrementHelpfulCount={this.incrementHelpfulCount} />
 
       </div>
     );
