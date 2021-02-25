@@ -54,7 +54,7 @@ let generateSeedData = (customerCount, productCount) => {
         customerCountry: custCountry,
         profilePicUrl: custProfile,
         title: faker.lorem.words(),
-        description: faker.lorem.sentence(),
+        description: faker.lorem.paragraph(),
         rating: randomRating,
         isVerifiedPurchase: faker.random.boolean(),
         isHelpfulCount: faker.random.number(),
