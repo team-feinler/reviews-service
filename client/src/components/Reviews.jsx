@@ -33,8 +33,8 @@ class Reviews extends React.Component {
 
   incrementHelpfulCount(event, reviewId) {
     //update db and get latest
-    console.log('addHelpfulCount before reviewId:', reviewId)
-    return axios.post(`http://localhost:4006/Reviews/incrementHelpfulCount/${reviewId}`)
+    //console.log('addHelpfulCount before reviewId:', reviewId)
+    axios.post(`http://localhost:4006/Reviews/incrementHelpfulCount/${reviewId}`)
       .then(results => {
         //console.log(results);
         this.getCustomerReviews(this.props.productId);

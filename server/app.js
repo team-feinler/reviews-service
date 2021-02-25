@@ -141,7 +141,7 @@ app.get('/Reviews/searchReviews', (req, res) => {
 
 //incrementHelpfulCount
 app.post('/Reviews/incrementHelpfulCount/:reviewId', (req, res) => {
-  console.log('req params: ', req.params.reviewId);
+  //console.log('req params: ', req.params.reviewId);
   db.incrementHelpfulCount(parseInt(req.params.reviewId))
     .then(results => {
       if (results) {

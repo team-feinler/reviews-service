@@ -186,7 +186,7 @@ let getSearchResults = (productId, searchString) => {
       reviewDate: 1
     })
     .then(results => {
-      console.log(results);
+      //console.log(results);
       var resultsPromise = new Promise((resolve, reject) => {
         resolve(results)
       })
