@@ -101,13 +101,14 @@ class SummaryByFeature extends React.Component {
                 return (
                   <tr id={key}>
                     <FeatureLabeltd>{key}</FeatureLabeltd>
-                    <td><StarRating
-                      name="rate1"
-                      starCount={5}
-                      value={value ? parseFloat(value) : 0}
-                      starColor="#FFA500"
-                    // editing=false
-                    />
+                    <td>
+                      <StarRating
+                        name="rate1"
+                        starCount={5}
+                        value={value ? parseFloat(value) : 0}
+                        starColor="#FFA500"
+                      // editing=false
+                      />
                     </td>
                     <td>{value}</td>
                   </tr>

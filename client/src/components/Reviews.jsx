@@ -4,7 +4,7 @@ import ReviewsPhrases from './ReviewsPhrases.jsx';
 import ReviewsFromUs from './ReviewsFromUS.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 import ReviewsPopup from './ReviewsPopUp.jsx';
-import axios from 'axios';
+// import axios from 'axios';
 //import "./style.css";
 
 class Reviews extends React.Component {
@@ -59,7 +59,7 @@ class Reviews extends React.Component {
         for (var i = 0; i < filteredreviews.length; i++) {
           filteredreviews[i]['readMoreSelected'] = true;
         }
-        console.log('filteredreviews: ', filteredreviews);
+        //console.log('filteredreviews: ', filteredreviews);
 
       })
       .catch(err => console.log('getCustomerReviews Error: ', err))

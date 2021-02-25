@@ -4,7 +4,7 @@ import ReviewsPhrases from './ReviewsPhrases.jsx';
 import ReviewsFromUs from './ReviewsFromUS.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 import ReviewsPopup from './ReviewsPopUp.jsx';
-import axios from 'axios';
+// import axios from 'axios';
 //import "./style.css";
 
 class Reviews extends React.Component {

@@ -1,18 +1,36 @@
 const express = require('express');
+// var expressStaticGzip = require('express-static-gzip');
 let app = express();
 const bodyParser = require('body-parser');
 const db = require('../database-mongoose/reviews.service');
 var cors = require('cors');
+
+app.get('*.js', (req, res, next) => {
+  if (req.header('Accept-Encoding').includes('br')) {
+    req.url = req.url + '.br';
+    res.set('Content-Encoding', 'br');
+    res.set('Content-Type', 'application/javascript; charset=UTF-8');
+
+  }
+  next();
+});
+
 app.use(cors());
 app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../public/dist'));
 app.use('/:id', express.static(__dirname + '/../public/dist'));
 app.use('/:id', express.static(__dirname + '/../public'));
+
+// app.use('/', expressStaticGzip(path.join(__dirname), {
+//   enableBrotli: true
+//  }));
+
 //app.use(express.static('client/dist'));
 app.use(express.static(__dirname + '/../client'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 app.get('/Reviews/getReviews/:productId', (req, res) => {

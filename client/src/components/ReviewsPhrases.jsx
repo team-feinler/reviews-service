@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ReviewsPhrases = (props) => {
-
-  const phrases = props.phrases ? props.phrases : [];
-
-  const Button = styled.button`
+const Button = styled.button`
   linear-gradient(to bottom,#f7f8fa,#e7e9ec);
   border-radius: 3px;
   border-color: #ADB1B8 #A2A6AC #8D9096;
@@ -22,8 +18,11 @@ const ReviewsPhrases = (props) => {
   white-space: nowrap;
   margin: 4px;`;
 
-  return (
+const ReviewsPhrases = (props) => {
 
+  const phrases = props.phrases ? props.phrases : [];
+
+  return (
     <div >
       <h3>Read reviews that mention</h3>
       {phrases.map(phrase => {

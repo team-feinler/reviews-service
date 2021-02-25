@@ -227,13 +227,13 @@ class ReviewsFromUs extends React.Component {
 
                 </Row>
 
-
-                <div> <StarRating
-                  name="rate1"
-                  starCount={5}
-                  value={review ? review.rating : 0}
-                  starColor="#FFA500"
-                />
+                <div>
+                  <StarRating
+                    name="rate1"
+                    starCount={5}
+                    value={review ? review.rating : 0}
+                    starColor="#FFA500"
+                  />
                   <LetterSpace />
                   <TitleSpan> {review ? review.title : null} </TitleSpan>
                 </div>
