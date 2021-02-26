@@ -34,7 +34,8 @@ class Reviews extends React.Component {
   incrementHelpfulCount(event, reviewId) {
     //update db and get latest
     //console.log('addHelpfulCount before reviewId:', reviewId)
-    axios.post(`http://localhost:4006/Reviews/incrementHelpfulCount/${reviewId}`)
+    //axios.post(`http://localhost:4006/Reviews/incrementHelpfulCount/${reviewId}`)
+    axios.post(`http://174.129.73.213::4006/Reviews/incrementHelpfulCount/${reviewId}`)
       .then(results => {
         //console.log(results);
         this.getCustomerReviews(this.props.productId);
@@ -45,8 +46,8 @@ class Reviews extends React.Component {
 
   getCustomerReviews(productId) {
     //console.log('getCustomerReviews:', productId);
-    return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
-      // return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
+    //return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
+    return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
       .then(results => {
         //console.log('Review query results: ', results);
         this.setState({
@@ -73,7 +74,8 @@ class Reviews extends React.Component {
       productId: this.props.productId,
       searchText: searchString
     };
-    return axios.get('http://localhost:4006/Reviews/searchReviews', { params })
+    //return axios.get('http://localhost:4006/Reviews/searchReviews', { params })
+    return axios.get('http://174.129.73.213:4006/Reviews/getReviews', { params })
       .then(results => {
         console.log('searchCustomerReviews results: ', results);
         this.setState({
@@ -85,8 +87,8 @@ class Reviews extends React.Component {
   }
 
   getReviewExcerpt(productId) {
-    return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
-      //return axios.get(`http://174.129.73.213:4006/Reviews/getReviewExcerpts/${productId}`)
+    //return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
+    return axios.get(`http://174.129.73.213:4006/Reviews/getReviewExcerpts/${productId}`)
       .then(wordsArray => {
         //console.log('Review phrases results: ', wordsArray);
         this.setState({
