@@ -32,8 +32,8 @@ class Summary extends React.Component {
   //POSTMAN test: http://localhost:4006/Reviews/getReviewSummary/1001
   //http://localhost:4006/Reviews/getReviewSummary/:productId (key productId, value 1005)
   getProductReviewSummary(productId) {
-    return axios.post(`http://localhost:4006/Reviews/getReviewSummary/${productId}`)
-      //return axios.post(`http://174.129.73.213:4006/Reviews/getReviewSummary/${productId}`)
+    // return axios.post(`http://localhost:4006/Reviews/getReviewSummary/${productId}`)
+    return axios.post(`http://174.129.73.213:4006/Reviews/getReviewSummary/${productId}`)
       .then(result => {
 
         // need to refactor code below- to update API call to return array
@@ -63,8 +63,8 @@ class Summary extends React.Component {
 
   getProductSummaryByFeature(productId) {
     //console.log('getProductSummaryByFeature called');
-    //return axios.get(`http://174.129.73.213:4006/Reviews/getReviewsByFeature/${productId}`)
-    return axios.get(`http://localhost:4006/Reviews/getReviewsByFeature/${productId}`)
+    //return axios.get(`http://localhost:4006/Reviews/getReviewsByFeature/${productId}`)
+    return axios.get(`http://174.129.73.213:4006/Reviews/getReviewsByFeature/${productId}`)
       .then(result => {
         this.setState({
           summaryByFeature: result.data
