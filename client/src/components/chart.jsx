@@ -15,7 +15,8 @@ const ChartReview = (props) => {
           {
             backgroundColor: ["#FFA41C", "#FFA41C", "#FFA41C", "#FFA41C", "#FFA41C"],
             data: props.ratingPercent ? props.ratingPercent : null,
-            label: null
+            label: null,
+            barPercentage: 0.6
           }
         ]
       },
@@ -45,7 +46,7 @@ const ChartReview = (props) => {
           }],
           yAxes: [
             {
-              barPercentage: 0.6,
+              // barPercentage: 0.6,
               display: true,
               position: 'left',
               type: 'category',
