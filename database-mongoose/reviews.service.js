@@ -221,7 +221,6 @@ const createReview = async (dataObj) => {
 const getReview = async (reviewId) => {
   try {
     const result = await ReviewsModel.findOne({ reviewId })
-    console.log(result)
     if (result) {
       return result;
     } else {
