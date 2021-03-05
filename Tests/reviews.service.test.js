@@ -14,6 +14,10 @@ describe('Database interface', () => {
     await ReviewsModel.remove({});
   });
 
+  afterEach(async () => {
+    await ReviewsModel.remove({});
+  });
+
   afterAll(async () => {
     await ReviewsModel.remove({});
     await mongoose.connection.close();
@@ -56,15 +60,16 @@ describe('Database interface', () => {
 
   test('successfully retrieves an existing review', async (done) => {
 
-    const review = await db.getReview(reviewId);
-    expect(review.configuration).toEqual(mockReview.configuration);
+    const review = await db.createReview(mockReview);
+    const fetchedReview = await db.getReview(reviewId);
+    expect(fetchedReview.configuration).toEqual(mockReview.configuration);
     done();
 
   });
 
   test('successfully updates an existing review', async (done) => {
 
-    const review = await db.getReview(reviewId);
+    const review = await db.createReview(mockReview);
     const update = await db.updateReview(reviewId, { configuration: 'Alexa auto sense temp 1001' });
     const updatedReview = await db.getReview(reviewId);
     expect(update.nModified).toEqual(1);
@@ -76,8 +81,9 @@ describe('Database interface', () => {
 
   test('successfully deletes an existing review', async (done) => {
 
-    const review = await db.getReview(reviewId);
-    expect(review).toBeDefined()
+    const review = await db.createReview(mockReview);
+    const fetchedReview = await db.getReview(reviewId);
+    expect(fetchedReview).toBeDefined()
     const remove = await db.deleteReview(reviewId);
     const deletedReview = await db.getReview(reviewId);
     expect(remove.deletedCount).toEqual(1);
