@@ -207,10 +207,59 @@ let incrementHelpfulCount = (reviewId) => {
 
 }
 
-module.exports.insertSeedData = insertSeedData;
-module.exports.getReviews = getReviews;
-module.exports.getReviewSummary = getReviewSummary;
-module.exports.getReviewExcerpts = getReviewExcerpts;
-module.exports.getReviewsByFeature = getReviewsByFeature;
-module.exports.getSearchResults = getSearchResults;
-module.exports.incrementHelpfulCount = incrementHelpfulCount;
+//************/ Single Review CRUD /************//
+
+const createReview = async (dataObj) => {
+  try {
+    const result = await ReviewsModel.create(dataObj)
+    return result;
+  } catch (err) {
+    console.error('An issue occured when creating a new review:', err)
+  }
+};
+
+const getReview = async (reviewId) => {
+  try {
+    const result = await ReviewsModel.findOne({ reviewId })
+    console.log(result)
+    if (result) {
+      return result;
+    } else {
+      throw new Error(`No review found for id ${reviewId}`)
+    }
+  } catch (err) {
+    console.error(`An issue occured when retrieving review ${reviewId}:`, err)
+  }
+};
+
+const updateReview = async (reviewId, dataObj) => {
+  try {
+    const result = await ReviewsModel.updateOne({ reviewId }, dataObj)
+    return result;
+  } catch (err) {
+    console.error(`An issue occured when updating review ${reviewId}:`, err)
+  }
+};
+
+const deleteReview = async (reviewId) => {
+  try {
+    const result = await ReviewsModel.deleteOne({ reviewId })
+    return result;
+  } catch (err) {
+    console.error(`An issue occured when deleting review ${reviewId}:`, err)
+  }
+};
+
+module.exports = {
+  createReview,
+  deleteReview,
+  getReview,
+  getReviews,
+  getReviewSummary,
+  getReviewExcerpts,
+  getReviewsByFeature,
+  getSearchResults,
+  incrementHelpfulCount,
+  insertSeedData,
+  updateReview,
+}
