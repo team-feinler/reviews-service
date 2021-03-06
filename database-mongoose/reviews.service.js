@@ -1,6 +1,4 @@
-const Reviews = require("../database-mongoose/reviews.model");
-let dbModel = require('./database.js');
-const ReviewsModel = Reviews.ReviewsModel;
+const { ReviewsModel } = require("../database-mongoose/reviews.model");
 
 let insertSeedData = (arrayOfObjects) => {
   //delete model to remove data
@@ -214,7 +212,7 @@ const createReview = async (dataObj) => {
     const result = await ReviewsModel.create(dataObj)
     return result;
   } catch (err) {
-    console.error('An issue occured when creating a new review:', err)
+    return err;
   }
 };
 
@@ -224,10 +222,10 @@ const getReview = async (reviewId) => {
     if (result) {
       return result;
     } else {
-      throw new Error(`No review found for id ${reviewId}`)
+      return new Error(`No review found for id ${reviewId}`)
     }
   } catch (err) {
-    console.error(`An issue occured when retrieving review ${reviewId}:`, err)
+    return err
   }
 };
 
@@ -236,7 +234,7 @@ const updateReview = async (reviewId, dataObj) => {
     const result = await ReviewsModel.updateOne({ reviewId }, dataObj)
     return result;
   } catch (err) {
-    console.error(`An issue occured when updating review ${reviewId}:`, err)
+    return err;
   }
 };
 
@@ -245,7 +243,7 @@ const deleteReview = async (reviewId) => {
     const result = await ReviewsModel.deleteOne({ reviewId })
     return result;
   } catch (err) {
-    console.error(`An issue occured when deleting review ${reviewId}:`, err)
+    return err;
   }
 };
 
