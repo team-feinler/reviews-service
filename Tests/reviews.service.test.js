@@ -1,25 +1,23 @@
 import 'regenerator-runtime/runtime';
-const mongoose = require('mongoose');
-const Reviews = require('../database-mongoose/reviews.model');
-const db = require('../database-mongoose/reviews.service');
-const SeedData = require('../database-mongoose/seeder');
-
-const ReviewsModel = Reviews.ReviewsModel;
-const MongoURI = 'mongodb://localhost/CustomerReviews_Test';
+const mongoose = require('mongoose')
+const { createReview, getReview, updateReview, deleteReview } = require('../database-mongoose/reviews.service');
+const { ReviewsModel } = require('../database-mongoose/reviews.model');
 
 describe('Database interface', () => {
 
   beforeAll(async () => {
-    await mongoose.connect('mongodb://localhost/CustomerReviews', { useNewUrlParser: true, useUnifiedTopology: true });
-    await ReviewsModel.remove({});
+    await mongoose.connect('mongodb://localhost/customer-reviews-test-service', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    await ReviewsModel.deleteMany({});
   });
 
   afterEach(async () => {
-    await ReviewsModel.remove({});
+    await ReviewsModel.deleteMany({});
   });
 
   afterAll(async () => {
-    await ReviewsModel.remove({});
     await mongoose.connection.close();
   });
 
@@ -52,7 +50,7 @@ describe('Database interface', () => {
 
   test('successfully creates a new review', async (done) => {
 
-    const review = await db.createReview(mockReview);
+    const review = await createReview(mockReview);
     expect(review.configuration).toEqual(mockReview.configuration);
     done();
 
@@ -60,8 +58,8 @@ describe('Database interface', () => {
 
   test('successfully retrieves an existing review', async (done) => {
 
-    const review = await db.createReview(mockReview);
-    const fetchedReview = await db.getReview(reviewId);
+    const review = await createReview(mockReview);
+    const fetchedReview = await getReview(reviewId);
     expect(fetchedReview.configuration).toEqual(mockReview.configuration);
     done();
 
@@ -69,9 +67,9 @@ describe('Database interface', () => {
 
   test('successfully updates an existing review', async (done) => {
 
-    const review = await db.createReview(mockReview);
-    const update = await db.updateReview(reviewId, { configuration: 'Alexa auto sense temp 1001' });
-    const updatedReview = await db.getReview(reviewId);
+    const review = await createReview(mockReview);
+    const update = await updateReview(reviewId, { configuration: 'Alexa auto sense temp 1001' });
+    const updatedReview = await getReview(reviewId);
     expect(update.nModified).toEqual(1);
     expect(updatedReview.configuration).toEqual('Alexa auto sense temp 1001');
     expect(updatedReview.configuration).not.toEqual(review.configuration);
@@ -81,13 +79,13 @@ describe('Database interface', () => {
 
   test('successfully deletes an existing review', async (done) => {
 
-    const review = await db.createReview(mockReview);
-    const fetchedReview = await db.getReview(reviewId);
+    const review = await createReview(mockReview);
+    const fetchedReview = await getReview(reviewId);
     expect(fetchedReview).toBeDefined()
-    const remove = await db.deleteReview(reviewId);
-    const deletedReview = await db.getReview(reviewId);
+    const remove = await deleteReview(reviewId);
+    const deletedReview = await getReview(reviewId);
     expect(remove.deletedCount).toEqual(1);
-    expect(deletedReview).not.toBeDefined();
+    expect(deletedReview).toBeInstanceOf(Error);
     done();
 
   })
