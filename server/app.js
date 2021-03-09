@@ -71,7 +71,7 @@ app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
     .catch(err => console.log('err: ', err));
 });
 
-// to test using postman: http://localhost:4006/Reviews/getReviewSummary/1001
+// to test using postman: /Reviews/getReviewSummary/1001
 app.post('/Reviews/getReviewSummary/:productId', (req, res) => {
   let prodId = req.params; //{id: "5"}
   // console.log('review summary post called :', prodId);
@@ -170,5 +170,43 @@ app.post('/Reviews/incrementHelpfulCount/:reviewId', (req, res) => {
     })
 
 })
+
+//************/ Single Review CRUD Endpoints /************//
+
+app.get('/review/:reviewId', async (req, res) => {
+  try {
+    const review = await db.getReview(req.params.reviewId);
+    res.status(200).send(review);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+app.post('/review', async (req, res) => {
+  try {
+    const result = await db.createReview(req.body);
+    res.status(201).send(result);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+app.put('/review/:reviewId', async (req, res) => {
+  try {
+    const result = await db.updateReview(req.params.reviewId, req.body);
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+app.delete('/review/:reviewId', async (req, res) => {
+  try {
+    const result = await db.deleteReview(req.params.reviewId);
+    res.status(200).send(result)
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+});
 
 module.exports = app;

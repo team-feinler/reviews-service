@@ -1,91 +1,93 @@
-import "regenerator-runtime/runtime";
-// var mongoose = require("mongoose");
-// var mongoDB = 'mongodb://localhost/CustomerReviews_Test';
-// mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-const Reviews = require("../database-mongoose/reviews.model");
-const Service = require("../database-mongoose/reviews.service");
-const SeedData = require("../database-mongoose/seeder");
+import 'regenerator-runtime/runtime';
+const mongoose = require('mongoose')
+const { createReview, getReview, updateReview, deleteReview } = require('../database-mongoose/reviews.service');
+const { ReviewsModel } = require('../database-mongoose/reviews.model');
 
-const ReviewsModel = Reviews.ReviewsModel;
+describe('Database interface', () => {
 
-describe("Reviews module test", () => {
   beforeAll(async () => {
-    await ReviewsModel.remove({});
+    await mongoose.connect('mongodb://localhost/customer-reviews-test-service', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    await ReviewsModel.deleteMany({});
   });
 
   afterEach(async () => {
-    await ReviewsModel.remove({});
+    await ReviewsModel.deleteMany({});
   });
 
   afterAll(async () => {
     await mongoose.connection.close();
   });
 
-  it("has Review service module", () => {
-    expect(Service).toBeDefined();
+  const reviewId = 1000;
+  const mockReview = {
+    reviewId,
+    productId: 1005,
+    color: 'black',
+    configuration: 'Alexa auto sense temp 1000',
+    isBestSeller: true,
+    category: 'element.category',
+    customerId: 1,
+    customerName: 'element.customerName',
+    cutomerCountry: 'USA',
+    profilePicUrl: 'https://fec-customers-bucket.s3-us-west-1.amazonaws.com/profile1.jpg',
+    title: 'element.title',
+    description: 'element.description',
+    rating: 4,
+    isVerifiedPurchase: true,
+    isHelpfulCount: 444,
+    imageUrls: ['https://fec-reviews-bucket.s3-us-west-1.amazonaws.com/image49.jpg'],
+    reviewDate: '2020-08-07T07:03:26.682Z',
+    easeToUse: 4,
+    voiceRecognition: 4,
+    techSupport: 5,
+    valueForMoney: 5,
+    qualityOfMaterial: 5,
+    batteryLife: 4
+  };
+
+  test('successfully creates a new review', async (done) => {
+
+    const review = await createReview(mockReview);
+    expect(review.configuration).toEqual(mockReview.configuration);
+    done();
 
   });
 
-  describe("Test insertSeedData", () => {
-    it("Inserts data", async () => {
-      const mockReview = [{
-        reviewId: 1005,
-        productId: 1005,
-        color: 'black',
-        configuration: 'Alexa auto sense temp 1005',
-        isBestSeller: true,
-        category: 'element.category',
-        customerId: 1,
-        customerName: 'element.customerName',
-        cutomerCountry: 'USA',
-        profilePicUrl: 'https://fec-customers-bucket.s3-us-west-1.amazonaws.com/profile1.jpg',
-        title: 'element.title',
-        description: 'element.description',
-        rating: 4,
-        isVerifiedPurchase: true,
-        isHelpfulCount: 444,
-        imageUrls: ['https://fec-reviews-bucket.s3-us-west-1.amazonaws.com/image49.jpg'],
-        reviewDate: '2020-08-07T07:03:26.682Z',
-        easeToUse: 4,
-        voiceRecognition: 4,
-        techSupport: 5,
-        valueForMoney: 5,
-        qualityOfMaterial: 5,
-        batteryLife: 4
-      }];
+  test('successfully retrieves an existing review', async (done) => {
 
-      await Service.insertSeedData(mockReview);
-      const insertedReview = await ReviewsModel.findOne({ reviewId: 1005 });
-      const actual = insertedReview.configuration;
-      //console.log('actual: ', actual);
-      const expected = 'Alexa auto sense temp 1005';
-      expect(actual).toEqual(expected);
+    const review = await createReview(mockReview);
+    const fetchedReview = await getReview(reviewId);
+    expect(fetchedReview.configuration).toEqual(mockReview.configuration);
+    done();
 
-      // Service.insertSeedData(mockReview)
-      //   .then((result) => {
-      //     return new Promise((resolve, reject) => {
-      //       ReviewsModel.findOne({ reviewId: 1002 }, (err, res) => {
-      //         if (err) {
-      //           reject(err);
-      //           return;
-      //         }
-      //         console.log('res: ', res);
-      //         resolve(res);
-      //       });
-
-      //     })
-      //   })
-      //   .then(insertedReview => {
-      //     console.log('insertedReview: ', insertedReview);
-      //     const actual = insertedReview.configuration;
-      //     console.log('actual: ', actual);
-      //     const expected = 'Alexa auto sense temp 1004';
-      //     expect(actual).toEqual(expected);
-      //   })
-      //   .catch(err => console.log(err));
-
-    });
   });
 
+  test('successfully updates an existing review', async (done) => {
+
+    const review = await createReview(mockReview);
+    const update = await updateReview(reviewId, { configuration: 'Alexa auto sense temp 1001' });
+    const updatedReview = await getReview(reviewId);
+    expect(update.nModified).toEqual(1);
+    expect(updatedReview.configuration).toEqual('Alexa auto sense temp 1001');
+    expect(updatedReview.configuration).not.toEqual(review.configuration);
+    done();
+
+  });
+
+  test('successfully deletes an existing review', async (done) => {
+
+    const review = await createReview(mockReview);
+    const fetchedReview = await getReview(reviewId);
+    expect(fetchedReview).toBeDefined()
+    const remove = await deleteReview(reviewId);
+    const deletedReview = await getReview(reviewId);
+    expect(remove.deletedCount).toEqual(1);
+    expect(deletedReview).toBeInstanceOf(Error);
+    done();
+
+  })
 
 });

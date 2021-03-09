@@ -1,17 +1,19 @@
-import "regenerator-runtime/runtime";// ReferenceError: regeneratorRuntime is not defined
-var mongoose = require("mongoose");
-var mongoDB = 'mongodb://localhost/CustomerReviews_Test';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-const Reviews = require("../database-mongoose/reviews.model");
+import "regenerator-runtime/runtime";
+const mongoose = require('mongoose')
+const { ReviewsModel } = require("../database-mongoose/reviews.model");
 
-const ReviewsModel = Reviews.ReviewsModel;
 describe("Reviews model test", () => {
+
   beforeAll(async () => {
-    await ReviewsModel.remove({}); //remove all the documents from the collection before everything
+    await mongoose.connect('mongodb://localhost/customer-reviews-test-model', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    await ReviewsModel.deleteMany({});
   });
 
   afterEach(async () => {
-    await ReviewsModel.remove({}); //remove all the document from the collection after each test
+    await ReviewsModel.deleteMany({});
   });
 
   afterAll(async () => {
@@ -23,7 +25,8 @@ describe("Reviews model test", () => {
   });
 
   describe("Saves a review", () => {
-    it("saves review", async () => {
+
+    it("saves review", async (done) => {
       const mockReview = new ReviewsModel(
         {
           reviewId: 249249,
@@ -51,18 +54,18 @@ describe("Reviews model test", () => {
           batteryLife: 4
         });
 
-      await mockReview.save();
+      const inserted = await mockReview.save();
       const insertedReview = await ReviewsModel.findOne({ reviewId: 249249 });
       const actual = insertedReview.title;
-      //console.log('actual: ', actual);
       const expected = 'echo speaker';
       expect(actual).toEqual(expected);
+      done();
 
     });
   });
 
   describe("updates review", () => {
-    it("updates a review", async () => {
+    it("updates a review", async (done) => {
       const mockReview = new ReviewsModel(
         {
           reviewId: 249249,
@@ -93,10 +96,10 @@ describe("Reviews model test", () => {
       await mockReview.save();
       mockReview.configuration = 'echo voice configuration';
       const updatedReview = await mockReview.save();
-
       const expected = 'echo voice configuration';
       const actual = updatedReview.configuration;
       expect(actual).toEqual(expected);
+      done();
 
     });
 

@@ -1,6 +1,4 @@
-const Reviews = require("../database-mongoose/reviews.model");
-let dbModel = require('./database.js');
-const ReviewsModel = Reviews.ReviewsModel;
+const { ReviewsModel } = require("../database-mongoose/reviews.model");
 
 let insertSeedData = (arrayOfObjects) => {
   //delete model to remove data
@@ -207,10 +205,58 @@ let incrementHelpfulCount = (reviewId) => {
 
 }
 
-module.exports.insertSeedData = insertSeedData;
-module.exports.getReviews = getReviews;
-module.exports.getReviewSummary = getReviewSummary;
-module.exports.getReviewExcerpts = getReviewExcerpts;
-module.exports.getReviewsByFeature = getReviewsByFeature;
-module.exports.getSearchResults = getSearchResults;
-module.exports.incrementHelpfulCount = incrementHelpfulCount;
+//************/ Single Review CRUD /************//
+
+const createReview = async (dataObj) => {
+  try {
+    const result = await ReviewsModel.create(dataObj)
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getReview = async (reviewId) => {
+  try {
+    const result = await ReviewsModel.findOne({ reviewId })
+    if (result) {
+      return result;
+    } else {
+      return new Error(`No review found for id ${reviewId}`)
+    }
+  } catch (err) {
+    return err
+  }
+};
+
+const updateReview = async (reviewId, dataObj) => {
+  try {
+    const result = await ReviewsModel.updateOne({ reviewId }, dataObj)
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+const deleteReview = async (reviewId) => {
+  try {
+    const result = await ReviewsModel.deleteOne({ reviewId })
+    return result;
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = {
+  createReview,
+  deleteReview,
+  getReview,
+  getReviews,
+  getReviewSummary,
+  getReviewExcerpts,
+  getReviewsByFeature,
+  getSearchResults,
+  incrementHelpfulCount,
+  insertSeedData,
+  updateReview,
+}
