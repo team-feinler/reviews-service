@@ -1,25 +1,24 @@
 DROP TABLE IF EXISTS reviews, products, customers;
 
 CREATE TABLE products (
-  productId INTEGER NOT NULL PRIMARY KEY,
+  productId INTEGER NOT NULL,
   color TEXT NOT NULL,
   "configuration" TEXT NOT NULL,
   isBestSeller BOOLEAN NOT NULL,
-  category TEXT NOT NULL,
-  reviews INTEGER[]
+  category TEXT NOT NULL
 );
 
 CREATE TABLE customers (
-  customerId INTEGER NOT NULL PRIMARY KEY,
+  customerId INTEGER NOT NULL,
   customerName TEXT NOT NULL,
   customerCountry TEXT NOT NULL,
   profilePicUrl TEXT NOT NULL
 );
 
 CREATE TABLE reviews (
-  reviewId INTEGER NOT NULL PRIMARY KEY,
+  reviewId INTEGER NOT NULL,
   title TEXT NOT NULL,
-  description TEXT NOT NULL,
+  "description" TEXT NOT NULL,
   rating INTEGER NOT NULL,
   isVerifiedPurchase BOOLEAN NOT NULL,
   isHelpfulCount INTEGER NOT NULL,
@@ -31,6 +30,6 @@ CREATE TABLE reviews (
   qualityOfMaterial FLOAT NOT NULL,
   batteryLife FLOAT NOT NULL,
   imageUrls TEXT[],
-  productId INTEGER REFERENCES products (productId),
-  customerId INTEGER REFERENCES customers (customerId)
+  productId INTEGER,
+  customerId INTEGER
 );
