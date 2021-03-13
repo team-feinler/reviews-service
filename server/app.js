@@ -176,9 +176,13 @@ app.post('/Reviews/incrementHelpfulCount/:reviewId', (req, res) => {
 app.get('/review/:reviewId', async (req, res) => {
   try {
     const review = await db.getReview(req.params.reviewId);
-    res.status(200).send(review);
+    if (review) {
+      res.status(200).send(review);
+    } else {
+      res.status(404).json({ error: 'No review exists by this id.' });
+    }
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -187,7 +191,7 @@ app.post('/review', async (req, res) => {
     const result = await db.createReview(req.body);
     res.status(201).send(result);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -196,16 +200,20 @@ app.put('/review/:reviewId', async (req, res) => {
     const result = await db.updateReview(req.params.reviewId, req.body);
     res.status(200).send(result);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.delete('/review/:reviewId', async (req, res) => {
   try {
     const result = await db.deleteReview(req.params.reviewId);
-    res.status(200).send(result)
+    if (result.deletedCount > 0) {
+      res.status(200).send(result);
+    } else {
+      res.status(404).json({ error: 'No review exists by this id.' });
+    }
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
