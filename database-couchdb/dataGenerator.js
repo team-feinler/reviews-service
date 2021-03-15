@@ -1,8 +1,9 @@
 const { nano } = require('./index.js');
 const faker = require('faker');
 
-const totalReviews = 1000000;
-const batchSize = 1000;
+const totalReviews = 10000000;
+const batchSize = 1250;
+const simultaneousRequests = 5;
 
 const setupSeedDb = async () => {
   try {
@@ -17,6 +18,7 @@ const generateReviews = async () => {
   let start = Date.now();
   const db = await nano.db.use('sdc');
   let documents = [];
+  let requests = [];
   for (let i = 1; i <= totalReviews; i++) {
     const review = {
       reviewId: i,
@@ -51,9 +53,15 @@ const generateReviews = async () => {
     }
     documents.push(review);
     if (documents.length === batchSize) {
-      const res = await db.bulk({ docs: documents })
-      console.log('REVIEWS', Math.floor(i / totalReviews * 100), 'PERCENT COMPLETE');
+      requests.push(db.bulk({ docs: documents }))
       documents = [];
+      if (requests.length === simultaneousRequests) {
+        await Promise.all(requests)
+          .then(() => {
+            requests = [];
+            console.log('REVIEWS', Math.floor(i / totalReviews * 100), 'PERCENT COMPLETE');
+          })
+      }
     }
   }
   console.log('Reviews finished after', Date.now() - start, 'ms')
