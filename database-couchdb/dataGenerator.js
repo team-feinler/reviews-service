@@ -1,7 +1,7 @@
 const { nano } = require('./index.js');
 const faker = require('faker');
 
-const totalReviews = 10000000;
+const totalReviews = 100000000;
 const batchSize = 1250;
 const simultaneousRequests = 5;
 
