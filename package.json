@@ -21,8 +21,9 @@
   "scripts": {
     "webpk": "webpack -d --watch",
     "server-dev": "nodemon server/server.js",
+    "seedCouch": "node database-couchdb/dataGenerator.js",
     "seedPostgres": "node database-postgres/dataGenerator.js",
-    "seedData": "node database-mongoose/dataGenerator.js",
+    "seedMongo": "node database-mongoose/dataGenerator.js",
     "test": "jest",
     "deploy1": "aws s3 cp . s3://s3-fec-reviews --recursive",
     "deploy2": "aws s3 sync . s3://s3-fec-reviews"
@@ -36,6 +37,7 @@
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "mongoose": "^5.11.12",
+    "nano": "^9.0.3",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "react": "^17.0.1",
