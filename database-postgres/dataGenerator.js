@@ -125,6 +125,9 @@ const generateReviews = async () => {
   await client.query(`
     ALTER TABLE reviews ADD FOREIGN KEY (customerId) REFERENCES customers (customerId);
   `)
+  await client.query(`
+    CREATE INDEX ON reviews (productId);
+  `)
 }
 
 (async () => {
