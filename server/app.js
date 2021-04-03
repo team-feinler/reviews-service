@@ -165,9 +165,9 @@ app.post('/Reviews/incrementHelpfulCount/:reviewId', (req, res) => {
 
 app.get('/review/:reviewId', async (req, res) => {
   try {
-    const review = await db.getReview(req.params.reviewId);
-    if (review) {
-      res.status(200).send(review);
+    const { rows } = await db.getReview(req.params.reviewId);
+    if (rows.length) {
+      res.status(200).send(rows[0]);
     } else {
       res.status(404).json({ error: 'No review exists by this id.' });
     }
@@ -196,8 +196,8 @@ app.put('/review/:reviewId', async (req, res) => {
 
 app.delete('/review/:reviewId', async (req, res) => {
   try {
-    const result = await db.deleteReview(req.params.reviewId);
-    if (result.deletedCount > 0) {
+    const { rowCount } = await db.deleteReview(req.params.reviewId);
+    if (rowCount > 0) {
       res.status(200).send('Successfully deleted review');
     } else {
       res.status(404).json({ error: 'No review exists by this id.' });
