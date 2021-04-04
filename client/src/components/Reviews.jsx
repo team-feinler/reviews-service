@@ -47,7 +47,7 @@ class Reviews extends React.Component {
   getCustomerReviews(productId) {
     //console.log('getCustomerReviews:', productId);
     //return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
-    return axios.get(`http://174.129.73.213:4006/Reviews/getReviews/${productId}`)
+    return axios.get(`/Reviews/getReviews/${productId}`)
       .then(results => {
         //console.log('Review query results: ', results);
         this.setState({
@@ -75,7 +75,7 @@ class Reviews extends React.Component {
       searchText: searchString
     };
     //return axios.get('http://localhost:4006/Reviews/searchReviews', { params })
-    return axios.get('http://174.129.73.213:4006/Reviews/getReviews', { params })
+    return axios.get('/Reviews/getReviews', { params })
       .then(results => {
         console.log('searchCustomerReviews results: ', results);
         this.setState({
@@ -88,7 +88,7 @@ class Reviews extends React.Component {
 
   getReviewExcerpt(productId) {
     //return axios.get(`http://localhost:4006/Reviews/getReviewExcerpts/${productId}`)
-    return axios.get(`http://174.129.73.213:4006/Reviews/getReviewExcerpts/${productId}`)
+    return axios.get(`/Reviews/getReviewExcerpts/${productId}`)
       .then(wordsArray => {
         //console.log('Review phrases results: ', wordsArray);
         this.setState({
