@@ -84,3 +84,17 @@ exports.deleteReview = (id) => {
   const query = `DELETE FROM reviews WHERE reviewId = ${id}`
   return client.query(query);
 }
+
+exports.getReviewSummary = async (id) => {
+  const query = `SELECT rating FROM reviews WHERE productId = ${id}`
+  const { rows } = await client.query(query);
+  return {
+    averageRating: rows.length ? (rows.reduce((acc, cur) => acc + cur.rating, 0) / rows.length).toFixed(2) : 0,
+    totalRatings: rows.length,
+    fiveStar: (rows.filter(row => row.rating === 5).length / rows.length * 100).toFixed(2).concat('%'),
+    fourStar: (rows.filter(row => row.rating === 4).length / rows.length * 100).toFixed(2).concat('%'),
+    threeStar: (rows.filter(row => row.rating === 3).length / rows.length * 100).toFixed(2).concat('%'),
+    twoStar: (rows.filter(row => row.rating === 2).length / rows.length * 100).toFixed(2).concat('%'),
+    oneStar: (rows.filter(row => row.rating === 1).length / rows.length * 100).toFixed(2).concat('%')
+  };
+}
