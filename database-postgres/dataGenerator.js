@@ -22,7 +22,7 @@ const generateProducts = async () => {
       console.log('PRODUCTS', Math.floor(i / totalProducts * 100), 'PERCENT COMPLETE')
       const combinedValues = values.join(', ');
       let query = `
-        INSERT INTO products (productId, color, configuration, isBestSeller, category)
+        INSERT INTO products ("productId", "color", "configuration", "isBestSeller", "category")
         VALUES ${combinedValues}
       `
       const res = await client.query(query);
@@ -30,7 +30,7 @@ const generateProducts = async () => {
     }
   }
   await client.query(`
-    ALTER TABLE products ADD PRIMARY KEY (productId);
+    ALTER TABLE products ADD PRIMARY KEY ("productId");
   `)
 }
 
@@ -48,7 +48,7 @@ const generateCustomers = async () => {
       console.log('CUSTOMERS', Math.floor(i / totalCustomers * 100), 'PERCENT COMPLETE')
       const combinedValues = values.join(', ');
       let query = `
-      INSERT INTO customers (customerId, customerName, customerCountry, profilePicUrl)
+      INSERT INTO customers ("customerId", "customerName", "customerCountry", "profilePicUrl")
       VALUES ${combinedValues}
       `
       const res = await client.query(query);
@@ -56,7 +56,7 @@ const generateCustomers = async () => {
     }
   }
   await client.query(`
-    ALTER TABLE customers ADD PRIMARY KEY (customerId);
+    ALTER TABLE customers ADD PRIMARY KEY ("customerId");
   `)
 }
 
@@ -109,7 +109,7 @@ const generateReviews = async () => {
       console.log('REVIEWS', Math.floor(i / totalReviews * 100), 'PERCENT COMPLETE')
       const combinedValues = values.join(', ');
       let query = `
-      INSERT INTO reviews (reviewId, title, description, rating, isVerifiedPurchase, isHelpfulCount, reviewDate, easeToUse, voiceRecognition, techSupport, valueForMoney, qualityOfMaterial, batteryLife, imageUrls, productId, customerId)
+      INSERT INTO reviews ("reviewId", "title", "description", "rating", "isVerifiedPurchase", "isHelpfulCount", "reviewDate", "easeToUse", "voiceRecognition", "techSupport", "valueForMoney", "qualityOfMaterial", "batteryLife", "imageUrls", "productId", "customerId")
       VALUES ${combinedValues}
       `
       const res = await client.query(query);
@@ -117,16 +117,16 @@ const generateReviews = async () => {
     }
   }
   await client.query(`
-    ALTER TABLE reviews ADD PRIMARY KEY (reviewId);
+    ALTER TABLE reviews ADD PRIMARY KEY ("reviewId");
   `)
   await client.query(`
-    ALTER TABLE reviews ADD FOREIGN KEY (productId) REFERENCES products (productId);
+    ALTER TABLE reviews ADD FOREIGN KEY ("productId") REFERENCES products ("productId");
   `)
   await client.query(`
-    ALTER TABLE reviews ADD FOREIGN KEY (customerId) REFERENCES customers (customerId);
+    ALTER TABLE reviews ADD FOREIGN KEY ("customerId") REFERENCES customers ("customerId");
   `)
   await client.query(`
-    CREATE INDEX ON reviews (productId);
+    CREATE INDEX ON reviews ("productId");
   `)
 }
 
