@@ -1,16 +1,15 @@
 const express = require('express');
-// var expressStaticGzip = require('express-static-gzip');
-let app = express();
+const app = express();
 const bodyParser = require('body-parser');
-const db = require('../database-mongoose/reviews.service');
-var cors = require('cors');
+// const db = require('../database-mongoose/reviews.service');
+const db = require('../database-postgres/dbHelpers');
+const cors = require('cors');
 
 app.get('*.js', (req, res, next) => {
   if (req.header('Accept-Encoding').includes('br')) {
     req.url = req.url + '.br';
     res.set('Content-Encoding', 'br');
     res.set('Content-Type', 'application/javascript; charset=UTF-8');
-
   }
   next();
 });
@@ -18,20 +17,11 @@ app.get('*.js', (req, res, next) => {
 app.use(cors());
 app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../public/dist'));
+app.use(express.static(__dirname + '/../client'));
 app.use('/:id', express.static(__dirname + '/../public/dist'));
 app.use('/:id', express.static(__dirname + '/../public'));
-
-// app.use('/', expressStaticGzip(path.join(__dirname), {
-//   enableBrotli: true
-//  }));
-
-//app.use(express.static('client/dist'));
-app.use(express.static(__dirname + '/../client'));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
 
 app.get('/Reviews/getReviews/:productId', (req, res) => {
 
@@ -175,9 +165,9 @@ app.post('/Reviews/incrementHelpfulCount/:reviewId', (req, res) => {
 
 app.get('/review/:reviewId', async (req, res) => {
   try {
-    const review = await db.getReview(req.params.reviewId);
-    if (review) {
-      res.status(200).send(review);
+    const { rows } = await db.getReview(req.params.reviewId);
+    if (rows.length) {
+      res.status(200).send(rows[0]);
     } else {
       res.status(404).json({ error: 'No review exists by this id.' });
     }
@@ -206,9 +196,9 @@ app.put('/review/:reviewId', async (req, res) => {
 
 app.delete('/review/:reviewId', async (req, res) => {
   try {
-    const result = await db.deleteReview(req.params.reviewId);
-    if (result.deletedCount > 0) {
-      res.status(200).send(result);
+    const { rowCount } = await db.deleteReview(req.params.reviewId);
+    if (rowCount > 0) {
+      res.status(200).send('Successfully deleted review');
     } else {
       res.status(404).json({ error: 'No review exists by this id.' });
     }
@@ -216,5 +206,16 @@ app.delete('/review/:reviewId', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+//************/ Multi Review CRUD Endpoint /************//
+
+app.get('/reviews/:productId', async (req, res) => {
+  try {
+    const result = await db.getReviewsByProductId(req.params.productId);
+    res.send(result)
+  } catch (err) {
+    res.send(err)
+  }
+})
 
 module.exports = app;
