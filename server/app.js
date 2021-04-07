@@ -27,7 +27,7 @@ app.get('/Reviews/getReviews/:productId', (req, res) => {
 
   let prodId = req.params; //{id: "5"}
   //console.log('getReviews :', prodId);
-  db.getReviews(parseInt(prodId.productId))
+  db.getReviewsByProductId(parseInt(prodId.productId))
     .then(results => {
       if (results.length > 0) {
         //console.log('results :', results);
@@ -42,23 +42,19 @@ app.get('/Reviews/getReviews/:productId', (req, res) => {
     .catch(err => console.log('err: ', err));
 });
 
-app.get('/Reviews/getReviewSummary/:productId', (req, res) => {
-  let prodId = req.params; //{id: "5"}
-  // console.log('review summary get called :', prodId);
-  // console.log('body: ', req.body);
-  // console.log('params:', req.params);
-  db.getReviewSummary(parseInt(prodId.productId))
-    .then(results => {
-      //console.log(results);
-      if (results) {
-        res.status(200).send(results);
-      } else {
-        var reviewSummary = [];
-        res.status(404).send(reviewSummary);
-
-      }
-    })
-    .catch(err => console.log('err: ', err));
+app.get('/Reviews/getReviewSummary/:productId', async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const results = await db.getReviewSummary(parseInt(productId))
+    if (results) {
+      res.status(200).send(results);
+    } else {
+      var reviewSummary = [];
+      res.status(404).send(reviewSummary);
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 });
 
 // to test using postman: /Reviews/getReviewSummary/1001
