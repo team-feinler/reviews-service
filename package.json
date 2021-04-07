@@ -19,12 +19,13 @@
     "node": ">=6.13.0"
   },
   "scripts": {
+    "build": "webpack",
     "webpk": "webpack -d --watch",
     "server-dev": "nodemon server/server.js",
     "seedCouch": "node database-couchdb/dataGenerator.js",
     "seedPostgres": "node database-postgres/dataGenerator.js",
     "seedMongo": "node database-mongoose/dataGenerator.js",
-    "test": "jest",
+    "test": "DB=test jest",
     "deploy1": "aws s3 cp . s3://s3-fec-reviews --recursive",
     "deploy2": "aws s3 sync . s3://s3-fec-reviews"
   },

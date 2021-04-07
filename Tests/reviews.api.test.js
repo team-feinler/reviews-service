@@ -2,17 +2,15 @@ import 'regenerator-runtime/runtime';
 const app = require('../server/app');
 const supertest = require('supertest');
 const request = supertest(app);
-// const { ReviewsModel } = require(.'../database-mongoose/reviews.model');
-// const SeedData = require('../database-mongoose/seeder');
 
-jest.mock('../database-mongoose/reviews.service')
+jest.mock('../database-postgres/dbHelpers')
 
 describe('/review/:reviewId', () => {
 
-  const db = require('../database-mongoose/reviews.service');
-  db.getReview.mockImplementation(() => 'fetched');
+  const db = require('../database-postgres/dbHelpers');
+  db.getReview.mockImplementation(() => ({ rows: ['fetched'] }));
   db.updateReview.mockImplementation(() => 'updated');
-  db.deleteReview.mockImplementation(() => 'deleted');
+  db.deleteReview.mockImplementation(() => ({ rowCount: 1 }));
 
   test('GET request returns result of getReview', async (done) => {
     const response = await request.get('/review/1000');
@@ -28,7 +26,7 @@ describe('/review/:reviewId', () => {
 
   test('DELETE request returns result of deleteReview', async (done) => {
     const response = await request.delete('/review/1000');
-    expect(response.text).toEqual('deleted');
+    expect(response.text).toEqual('Successfully deleted review');
     done();
   });
 
@@ -36,7 +34,7 @@ describe('/review/:reviewId', () => {
 
 describe('/review', () => {
 
-  const db = require('../database-mongoose/reviews.service');
+  const db = require('../database-postgres/dbHelpers');
   db.createReview.mockImplementation(() => 'created');
 
   test('POST request returns result of createReview', async (done) => {

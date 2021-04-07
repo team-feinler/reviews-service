@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const { createReview, getReview, updateReview, deleteReview } = require('../database-mongoose/reviews.service');
 const { ReviewsModel } = require('../database-mongoose/reviews.model');
 
-describe('Database interface', () => {
+xdescribe('Database interface', () => {
 
   beforeAll(async () => {
     await mongoose.connect('mongodb://localhost/customer-reviews-test-service', {

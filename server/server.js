@@ -1,7 +1,12 @@
 const app = require("./app");
-let port = 4006;
+const PORT = process.env.PORT || 4006;
+const { client } = require('../database-postgres/dbHelpers');
 
-app.listen(port, function () {
-  console.log(`listening at port ${port}`);
+client.connect()
+  .then(() => console.log('Connected to postgres'))
+  .catch((err) => console.error(err));
+
+app.listen(PORT, function () {
+  console.log(`listening at PORT ${PORT}`);
 });
 
