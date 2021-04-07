@@ -1,104 +1,100 @@
 import "regenerator-runtime/runtime";
-const mongoose = require('mongoose')
-const { ReviewsModel } = require("../database-mongoose/reviews.model");
+const { readFile } = require('fs/promises');
+const path = require('path');
+const { Client } = require('pg')
+const { client, ...db } = require('../database-postgres/dbHelpers')
+
+const setupClient = new Client({
+  database: 'postgres'
+});
 
 describe("Reviews model test", () => {
 
   beforeAll(async () => {
-    await mongoose.connect('mongodb://localhost/customer-reviews-test-model', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    await ReviewsModel.deleteMany({});
+    try {
+      await setupClient.connect()
+      await setupClient.query('DROP DATABASE IF EXISTS "test"')
+      await setupClient.query('CREATE DATABASE "test"')
+      await setupClient.end()
+      await client.connect()
+      const sql = path.resolve(__dirname, '../database-postgres/tableSetup.sql')
+      const query = await readFile(sql, 'utf-8')
+      const taco = await client.query(query);
+    } catch (err) {
+      console.error(err)
+    }
   });
 
   afterEach(async () => {
-    await ReviewsModel.deleteMany({});
+    Promise.all([
+      client.query('TRUNCATE TABLE reviews'),
+      client.query('TRUNCATE TABLE products'),
+      client.query('TRUNCATE TABLE customers')
+    ])
   });
 
   afterAll(async () => {
-    await mongoose.connection.close();
+    await client.end();
   });
 
-  it("Has a model", () => {
-    expect(ReviewsModel).toBeDefined();
-  });
+  describe("Review operations:", () => {
 
-  describe("Saves a review", () => {
-
-    it("saves review", async (done) => {
-      const mockReview = new ReviewsModel(
-        {
-          reviewId: 249249,
-          productId: 100200,
-          color: 'blue',
-          configuration: 'element.configuration',
-          isBestSeller: true,
-          category: 'element.category',
-          customerId: 1,
-          customerName: 'element.customerName',
-          cutomerCountry: 'USA',
-          profilePicUrl: 'https://fec-customers-bucket.s3-us-west-1.amazonaws.com/profile1.jpg',
-          title: 'echo speaker',
-          description: 'element.description',
-          rating: 4,
-          isVerifiedPurchase: true,
-          isHelpfulCount: 444,
-          imageUrlId: ['https://fec-reviews-bucket.s3-us-west-1.amazonaws.com/image49.jpg'],
-          reviewDate: '2020-08-07T07:03:26.682Z',
-          easeToUse: 4,
-          voiceRecognition: 4,
-          techSupport: 5,
-          valueForMoney: 5,
-          qualityOfMaterial: 5,
-          batteryLife: 4
-        });
-
-      const inserted = await mockReview.save();
-      const insertedReview = await ReviewsModel.findOne({ reviewId: 249249 });
-      const actual = insertedReview.title;
-      const expected = 'echo speaker';
-      expect(actual).toEqual(expected);
+    it("saves a review", async (done) => {
+      const mockReview = {
+        productId: 100200,
+        customerId: 1,
+        title: 'echo speaker',
+        description: 'element.description',
+        rating: 4,
+        isVerifiedPurchase: true,
+        isHelpfulCount: 444,
+        imageUrls: ['https://fec-reviews-bucket.s3-us-west-1.amazonaws.com/image49.jpg'],
+        reviewDate: '2020-08-07',
+        easeToUse: 4,
+        voiceRecognition: 4,
+        techSupport: 5,
+        valueForMoney: 5,
+        qualityOfMaterial: 5,
+        batteryLife: 4
+      };
+      const { rowCount: before } = await client.query(`SELECT * FROM reviews`)
+      const added = await db.createReview(mockReview)
+      const { rowCount: after } = await client.query(`SELECT * FROM reviews`)
+      expect(before).toEqual(0);
+      expect(after).toEqual(1);
       done();
 
     });
   });
 
-  describe("updates review", () => {
+  xdescribe("updates review", () => {
     it("updates a review", async (done) => {
-      const mockReview = new ReviewsModel(
-        {
-          reviewId: 249249,
-          productId: 100200,
-          color: 'blue',
-          configuration: 'element.configuration',
-          isBestSeller: true,
-          category: 'element.category',
-          customerId: 1,
-          customerName: 'element.customerName',
-          cutomerCountry: 'USA',
-          profilePicUrl: 'https://fec-customers-bucket.s3-us-west-1.amazonaws.com/profile1.jpg',
-          title: 'echo speaker',
-          description: 'element.description',
-          rating: 4,
-          isVerifiedPurchase: true,
-          isHelpfulCount: 444,
-          imageUrlId: ['https://fec-reviews-bucket.s3-us-west-1.amazonaws.com/image49.jpg'],
-          reviewDate: '2020-08-07T07:03:26.682Z',
-          easeToUse: 4,
-          voiceRecognition: 4,
-          techSupport: 5,
-          valueForMoney: 5,
-          qualityOfMaterial: 5,
-          batteryLife: 4
-        });
-
-      await mockReview.save();
-      mockReview.configuration = 'echo voice configuration';
-      const updatedReview = await mockReview.save();
-      const expected = 'echo voice configuration';
-      const actual = updatedReview.configuration;
-      expect(actual).toEqual(expected);
+      const mockReview = {
+        productId: 100201,
+        customerId: 1,
+        title: 'echo speaker',
+        description: 'element.description',
+        rating: 4,
+        isVerifiedPurchase: true,
+        isHelpfulCount: 444,
+        imageUrls: ['https://fec-reviews-bucket.s3-us-west-1.amazonaws.com/image49.jpg'],
+        reviewDate: '2020-08-07',
+        easeToUse: 4,
+        voiceRecognition: 4,
+        techSupport: 5,
+        valueForMoney: 5,
+        qualityOfMaterial: 5,
+        batteryLife: 4
+      };
+      const update = {
+        description: 'new description'
+      }
+      await db.createReview(mockReview)
+      const review = await db.getReviewsByProductId(100201)[0];
+      expect(review.description).toEqual('element.description');
+      const updated = await db.updateReview(review.reviewId, update)
+      const updatedReview = await db.getReviewsByProductId(100201)[0];
+      expect(updatedReview.description).toEqual('new description');
       done();
 
     });
