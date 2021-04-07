@@ -33,7 +33,7 @@ class Summary extends React.Component {
   //http://localhost:4006/Reviews/getReviewSummary/:productId (key productId, value 1005)
   getProductReviewSummary(productId) {
     // return axios.post(`http://localhost:4006/Reviews/getReviewSummary/${productId}`)
-    return axios.post(`/Reviews/getReviewSummary/${productId}`)
+    return axios.get(`/Reviews/getReviewSummary/${productId}`)
       .then(result => {
 
         // need to refactor code below- to update API call to return array

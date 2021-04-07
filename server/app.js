@@ -5,15 +5,6 @@ const bodyParser = require('body-parser');
 const db = require('../database-postgres/dbHelpers');
 const cors = require('cors');
 
-app.get('*.js', (req, res, next) => {
-  if (req.header('Accept-Encoding').includes('br')) {
-    req.url = req.url + '.br';
-    res.set('Content-Encoding', 'br');
-    res.set('Content-Type', 'application/javascript; charset=UTF-8');
-  }
-  next();
-});
-
 app.use(cors());
 app.use(express.static(__dirname + '/../public'));
 app.use(express.static(__dirname + '/../public/dist'));
