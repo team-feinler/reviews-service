@@ -1,0 +1,65 @@
+config:
+  target: "http://localhost:4006"
+  http:
+    timeout: 10
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 50
+    - duration: 60
+      arrivalRate: 50
+      rampTo: 75
+    - duration: 60
+      arrivalRate: 75
+      rampTo: 100
+    - duration: 300
+      arrivalRate: 100
+      rampTo: 200
+  processor: "./processor.js"
+
+scenarios:
+  - name: "View product page"
+    weight: 15
+    flow:
+      - function: "generateProductId"
+      - get:
+          url: "/Reviews/getReviews/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewSummary/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewsByFeature/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewExcerpts/{{ productId }}"
+  - name: "View multiple product pages"
+    weight: 15
+    flow:
+      - function: "generateProductId"
+      - loop:
+        - get:
+            url: "/Reviews/getReviews/{{ productId }}"
+        - get:
+            url: "/Reviews/getReviewSummary/{{ productId }}"
+        - get:
+            url: "/Reviews/getReviewsByFeature/{{ productId }}"
+        - get:
+            url: "/Reviews/getReviewExcerpts/{{ productId }}"
+        count: 5
+        think: 3
+  - name: "View product page and leave review"
+    weight: 1
+    flow:
+      - function: "generateProductId"
+      - get:
+          url: "/Reviews/getReviews/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewSummary/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewsByFeature/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewExcerpts/{{ productId }}"
+      - think: 5
+      - post:
+          url: "/review"
+          headers:
+            Content-Type: "application/json"
+          beforeRequest: "generateProductReview"
