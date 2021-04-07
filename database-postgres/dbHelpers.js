@@ -1,13 +1,8 @@
 const faker = require('faker');
 const { Client } = require('pg');
 const client = new Client({
-  database: 'sdc'
+  database: process.env.DB || 'sdc'
 });
-
-client
-  .connect()
-  .then(() => console.log('connected to Postgres'))
-  .catch(err => console.error('connection error', err.stack))
 
 const formatValue = (value) => {
   if (Array.isArray(value)) {
@@ -16,6 +11,8 @@ const formatValue = (value) => {
     return JSON.stringify(value)
   }
 }
+
+module.exports.client = client;
 
 exports.getReviewsByProductId = async (id) => {
   const query = `
