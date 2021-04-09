@@ -57,7 +57,7 @@ exports.getReview = (id) => {
 exports.createReview = (body) => {
   body.reviewId = faker.random.uuid();
   const keys = Object.keys(body)
-  const columns = keys.join(',')
+  const columns = keys.map(key => `"${key}"`).join(', ')
   const values = keys.map(key => formatValue(body[key])).join(',').replace(/\"/g,`'`);
   const query = `
     INSERT INTO reviews (${columns})
