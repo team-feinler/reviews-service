@@ -1,0 +1,36 @@
+config:
+  target: "http://localhost:4006"
+  http:
+    timeout: 10
+  phases:
+   - name: 'warm up'
+     duration: 60
+     arrivalRate: 1
+     rampTo: 50
+   - name: 'easy'
+     duration: 60
+     arrivalRate: 50
+   - name: 'medium'
+     duration: 60
+     arrivalRate: 100
+   - name: 'hard'
+     duration: 60
+     arrivalRate: 150
+   - name: 'cool down'
+     duration: 60
+     arrivalRate: 150
+     rampTo: 10
+  processor: "./processor.js"
+
+scenarios:
+  - name: "View product page"
+    flow:
+      - function: "generateProductId"
+      - get:
+          url: "/Reviews/getReviews/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewSummary/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewsByFeature/{{ productId }}"
+      - get:
+          url: "/Reviews/getReviewExcerpts/{{ productId }}"

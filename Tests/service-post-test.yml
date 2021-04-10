@@ -1,0 +1,32 @@
+config:
+  target: "http://localhost:4006"
+  http:
+    timeout: 10
+  phases:
+   - name: 'warm up'
+     duration: 60
+     arrivalRate: 1
+     rampTo: 200
+   - name: 'easy'
+     duration: 60
+     arrivalRate: 300
+   - name: 'medium'
+     duration: 60
+     arrivalRate: 400
+   - name: 'hard'
+     duration: 60
+     arrivalRate: 500
+   - name: 'cool down'
+     duration: 60
+     arrivalRate: 500
+     rampTo: 10
+  processor: "./processor.js"
+
+scenarios:
+  - name: "Review a product"
+    flow:
+      - post:
+          url: "/review"
+          headers:
+            Content-Type: "application/json"
+          beforeRequest: "generateProductReview"

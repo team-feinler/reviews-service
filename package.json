@@ -26,6 +26,8 @@
     "seedPostgres": "node database-postgres/dataGenerator.js",
     "seedMongo": "node database-mongoose/dataGenerator.js",
     "stress": "artillery run --output Tests/report.json Tests/service-test.yml",
+    "stress-get": "artillery run --output Tests/report-get.json Tests/service-get-test.yml",
+    "stress-post": "artillery run --output Tests/report-post.json Tests/service-post-test.yml",
     "test": "DB=test jest",
     "deploy1": "aws s3 cp . s3://s3-fec-reviews --recursive",
     "deploy2": "aws s3 sync . s3://s3-fec-reviews"
