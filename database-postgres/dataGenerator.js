@@ -1,13 +1,11 @@
 const { Client } = require('pg');
-const client = new Client({
-  database: 'sdc'
-});
+const client = new Client();
 const faker = require('faker');
 
 const totalProducts = 10000000;
 const totalCustomers = 10000000;
 const totalReviews = 100000000;
-const batchSize = 100000;
+const batchSize = 10000;
 
 const generateProducts = async () => {
   let values = [];
@@ -63,7 +61,7 @@ const generateCustomers = async () => {
 const generateReviews = async () => {
   let values = [];
   for (let i = 1; i <= totalReviews; i++) {
-    let reviewId = i;
+    let reviewId = faker.random.uuid();
     let title = faker.lorem.words();
     let description = faker.lorem.paragraph();
     let rating = Math.floor(Math.random() * (5 - 1 + 1) + 1);
@@ -87,7 +85,7 @@ const generateReviews = async () => {
     let customerId = faker.random.number({ min: 1, max: totalCustomers });
     values.push(`
       (
-        ${reviewId},
+        '${reviewId}',
         '${title}',
         '${description}',
         ${rating},

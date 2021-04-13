@@ -1,8 +1,6 @@
 const faker = require('faker');
 const { Client } = require('pg');
-const client = new Client({
-  database: process.env.DB || 'sdc'
-});
+const client = new Client();
 
 const formatValue = (value) => {
   if (Array.isArray(value)) {
