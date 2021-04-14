@@ -1,39 +1,37 @@
+const { writeFile } = require('fs/promises');
+const path = require('path');
 const { Client } = require('pg');
 const client = new Client();
 const faker = require('faker');
-
 const totalProducts = 10000000;
 const totalCustomers = 10000000;
 const totalReviews = 100000000;
-const batchSize = 10000;
+const batchSize = 25000;
+
+const writeToDatabase = async (database, data) => {
+  let filePath = path.join(__dirname + '/data.txt');
+  await writeFile(filePath, data)
+  return client.query(`COPY ${database} FROM '${filePath}'`);
+}
 
 const generateProducts = async () => {
-  let values = [];
+  let data = '';
   for (let i = 1; i <= totalProducts; i++) {
     let productId = i;
     let color = faker.commerce.color();
     let configuration = faker.lorem.words();
     let isBestSeller = faker.random.boolean();
     let category = 'Amazon Devices';
-    values.push(`(${productId}, '${color}', '${configuration}', ${isBestSeller}, '${category}')`)
-    if (values.length === batchSize) {
-      console.log('PRODUCTS', Math.floor(i / totalProducts * 100), 'PERCENT COMPLETE')
-      const combinedValues = values.join(', ');
-      let query = `
-        INSERT INTO products ("productId", "color", "configuration", "isBestSeller", "category")
-        VALUES ${combinedValues}
-      `
-      const res = await client.query(query);
-      values = [];
+    data += `${productId}\t'${color}'\t'${configuration}'\t${isBestSeller}\t'${category}'\n`
+    if (i % batchSize === 0) {
+      await writeToDatabase(`products`, data);
+      data = '';
     }
   }
-  await client.query(`
-    ALTER TABLE products ADD PRIMARY KEY ("productId");
-  `)
 }
 
 const generateCustomers = async () => {
-  let values = [];
+  let data = '';
   for (let i = 1; i <= totalCustomers; i++) {
     let customerId = i;
     let customerName = faker.name.findName();
@@ -41,25 +39,18 @@ const generateCustomers = async () => {
     let customerCountry = faker.address.country();
     customerCountry = customerCountry.replace(/\'/, '\'\'');
     let profilePicUrl = 'http://placeimg.com/60/60/people';
-    values.push(`(${customerId}, '${customerName}', '${customerCountry}', '${profilePicUrl}')`)
-    if (values.length === batchSize) {
-      console.log('CUSTOMERS', Math.floor(i / totalCustomers * 100), 'PERCENT COMPLETE')
-      const combinedValues = values.join(', ');
-      let query = `
-      INSERT INTO customers ("customerId", "customerName", "customerCountry", "profilePicUrl")
-      VALUES ${combinedValues}
-      `
-      const res = await client.query(query);
-      values = [];
+    data += `${customerId}\t'${customerName}'\t'${customerCountry}'\t'${profilePicUrl}'\n`
+    if (i % batchSize === 0) {
+      await writeToDatabase(`customers`, data);
+      data = '';
     }
   }
-  await client.query(`
-    ALTER TABLE customers ADD PRIMARY KEY ("customerId");
-  `)
+
 }
 
 const generateReviews = async () => {
-  let values = [];
+  let data = '';
+  let reviewsStart = Date.now();
   for (let i = 1; i <= totalReviews; i++) {
     let reviewId = faker.random.uuid();
     let title = faker.lorem.words();
@@ -83,39 +74,21 @@ const generateReviews = async () => {
     ]
     let productId = faker.random.number({ min: 1, max: totalProducts });
     let customerId = faker.random.number({ min: 1, max: totalCustomers });
-    values.push(`
-      (
-        '${reviewId}',
-        '${title}',
-        '${description}',
-        ${rating},
-        ${isVerifiedPurchase},
-        ${isHelpfulCount},
-        '${reviewDate}',
-        ${easeToUse},
-        ${voiceRecognition},
-        ${techSupport},
-        ${valueForMoney},
-        ${qualityOfMaterial},
-        ${batteryLife},
-        ARRAY [${imageUrls}],
-        ${productId},
-        ${customerId}
-      )
-    `)
-    if (values.length === batchSize) {
-      console.log('REVIEWS', Math.floor(i / totalReviews * 100), 'PERCENT COMPLETE')
-      const combinedValues = values.join(', ');
-      let query = `
-      INSERT INTO reviews ("reviewId", "title", "description", "rating", "isVerifiedPurchase", "isHelpfulCount", "reviewDate", "easeToUse", "voiceRecognition", "techSupport", "valueForMoney", "qualityOfMaterial", "batteryLife", "imageUrls", "productId", "customerId")
-      VALUES ${combinedValues}
-      `
-      const res = await client.query(query);
-      values = [];
+    data += `'${reviewId}'\t'${title}'\t'${description}'\t${rating}\t${isVerifiedPurchase}\t${isHelpfulCount}\t'${reviewDate}'\t${easeToUse}\t${voiceRecognition}\t${techSupport}\t${valueForMoney}\t${qualityOfMaterial}\t${batteryLife}\t{${imageUrls}}\t${productId}\t${customerId}\n`
+    if (i % batchSize === 0) {
+      await writeToDatabase(`reviews`, data);
+      data = '';
+      if (i % 1000000 === 0) { console.log('Expect reviews to finish after', Date.now() - reviewsStart, 'ms')}
     }
   }
   await client.query(`
     ALTER TABLE reviews ADD PRIMARY KEY ("reviewId");
+  `)
+  await client.query(`
+    ALTER TABLE products ADD PRIMARY KEY ("productId");
+  `)
+  await client.query(`
+    ALTER TABLE customers ADD PRIMARY KEY ("customerId");
   `)
   await client.query(`
     ALTER TABLE reviews ADD FOREIGN KEY ("productId") REFERENCES products ("productId");
