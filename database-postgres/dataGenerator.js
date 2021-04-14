@@ -78,7 +78,7 @@ const generateReviews = async () => {
     if (i % batchSize === 0) {
       await writeToDatabase(`reviews`, data);
       data = '';
-      if (i % 1000000 === 0) { console.log('Expect reviews to finish after', Date.now() - reviewsStart, 'ms')}
+      if (i % 1000000 === 0) { console.log(`Reviews ${Math.ceil(i / totalReviews) * 100}% completed`)}
     }
   }
   await client.query(`
