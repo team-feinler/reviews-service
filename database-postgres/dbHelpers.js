@@ -43,8 +43,7 @@ exports.getReviewsByProductId = async (id) => {
     INNER JOIN customers ON reviews."customerId" = customers."customerId"
     WHERE products."productId" = ${id};
   `;
-  const response = await client.query(query);
-  return response.rows;
+  return client.query(query);
 };
 
 exports.getReview = (id) => {
