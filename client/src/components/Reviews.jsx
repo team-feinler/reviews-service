@@ -45,9 +45,7 @@ class Reviews extends React.Component {
   }
 
   getCustomerReviews(productId) {
-    //console.log('getCustomerReviews:', productId);
-    //return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
-    return axios.get(`/Reviews/getReviews/${productId}`)
+    return axios.get(`/reviews/${productId}`)
       .then(results => {
         //console.log('Review query results: ', results);
         this.setState({
@@ -69,13 +67,11 @@ class Reviews extends React.Component {
 
   searchCustomerReviews(event, searchString) {
     event.preventDefault();
-    console.log('The button was clicked.');
     const params = {
       productId: this.props.productId,
       searchText: searchString
     };
-    //return axios.get('http://localhost:4006/Reviews/searchReviews', { params })
-    return axios.get('/Reviews/getReviews', { params })
+    return axios.get('/reviews', { params })
       .then(results => {
         console.log('searchCustomerReviews results: ', results);
         this.setState({

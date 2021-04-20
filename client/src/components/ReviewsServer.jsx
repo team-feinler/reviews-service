@@ -30,8 +30,7 @@ class Reviews extends React.Component {
 
   getCustomerReviews(productId) {
     //console.log('getCustomerReviews:', productId);
-    // return axios.get(`http://localhost:4006/Reviews/getReviews/${productId}`)
-    return axios.get(`/Reviews/getReviews/${productId}`)
+    return axios.get(`/reviews/${productId}`)
       .then(results => {
         //console.log('Review query results: ', results);
         this.setState({

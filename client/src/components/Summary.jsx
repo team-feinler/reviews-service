@@ -28,11 +28,7 @@ class Summary extends React.Component {
 
   }
 
-  //get summary ratings
-  //POSTMAN test: http://localhost:4006/Reviews/getReviewSummary/1001
-  //http://localhost:4006/Reviews/getReviewSummary/:productId (key productId, value 1005)
   getProductReviewSummary(productId) {
-    // return axios.post(`http://localhost:4006/Reviews/getReviewSummary/${productId}`)
     return axios.get(`/Reviews/getReviewSummary/${productId}`)
       .then(result => {
 
