@@ -2,7 +2,7 @@ const path = require("path");
 //const CompressionPlugin = require('compression-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
 var SRC_DIR = path.join(__dirname, '/client/src');
-var DIST_DIR = path.join(__dirname, '/public/dist');
+var DIST_DIR = path.join(__dirname, '/public');
 
 module.exports = {
   mode: 'production',
@@ -24,7 +24,6 @@ module.exports = {
   output: {
     path: DIST_DIR,
     filename: "reviews_bundle.js",
-    publicPath: '/dist/',
   },
   plugins: [
     new BrotliPlugin({
