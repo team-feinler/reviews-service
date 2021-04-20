@@ -4,19 +4,16 @@ const app = express();
 const bodyParser = require('body-parser');
 const db = require('../database-postgres/dbHelpers');
 const cors = require('cors');
-const morgan = require('morgan');
 
 app.use(cors());
-app.use(morgan('dev'));
-app.use(express.static(__dirname + '/../public'));
-app.use('/:id', express.static(__dirname + '/../public/dist'));
-app.use('/:id', express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/../public'));
+app.use('/:id', express.static(__dirname + '/../public'));
 
 app.get('/Reviews/getReviews/:productId', async (req, res) => {
   try {
-    const result = await db.getReviewsByProductId(req.params.productId);
-    res.send(result)
+    const { rows } = await db.getReviewsByProductId(req.params.productId);
+    res.send(rows)
   } catch (err) {
     res.send(err)
   }
@@ -145,8 +142,8 @@ app.delete('/review/:reviewId', async (req, res) => {
 
 app.get('/reviews/:productId', async (req, res) => {
   try {
-    const result = await db.getReviewsByProductId(req.params.productId);
-    res.send(result)
+    const { rows } = await db.getReviewsByProductId(req.params.productId);
+    res.send(rows)
   } catch (err) {
     res.send(err)
   }
