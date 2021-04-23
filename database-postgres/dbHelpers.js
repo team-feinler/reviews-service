@@ -1,6 +1,6 @@
 const faker = require('faker');
-const { Client } = require('pg');
-const client = new Client();
+const { Pool } = require('pg');
+const pool = new Pool();
 
 const formatValue = (value) => {
   if (Array.isArray(value)) {
@@ -10,7 +10,7 @@ const formatValue = (value) => {
   }
 }
 
-module.exports.client = client;
+module.exports.client = pool;
 
 exports.getReviewsByProductId = async (id) => {
   const query = `
@@ -43,12 +43,12 @@ exports.getReviewsByProductId = async (id) => {
     INNER JOIN customers ON reviews."customerId" = customers."customerId"
     WHERE products."productId" = ${id};
   `;
-  return client.query(query);
+  return pool.query(query);
 };
 
 exports.getReview = (id) => {
   const query = `SELECT * FROM reviews WHERE "reviewId" = ${id}`
-  return client.query(query);
+  return pool.query(query);
 }
 
 exports.createReview = (body) => {
@@ -60,7 +60,7 @@ exports.createReview = (body) => {
     INSERT INTO reviews (${columns})
     VALUES (${values})
   `
-  return client.query(query);
+  return pool.query(query);
 }
 
 exports.updateReview = (id, data) => {
@@ -71,17 +71,17 @@ exports.updateReview = (id, data) => {
     SET ${updates}
     WHERE "reviewId" = ${id}
   `
-  return client.query(query);
+  return pool.query(query);
 }
 
 exports.deleteReview = (id) => {
   const query = `DELETE FROM reviews WHERE "reviewId" = ${id}`
-  return client.query(query);
+  return pool.query(query);
 }
 
 exports.getReviewSummary = async (id) => {
   const query = `SELECT rating FROM reviews WHERE "productId" = ${id}`
-  const { rows } = await client.query(query);
+  const { rows } = await pool.query(query);
   return {
     averageRating: rows.length ? (rows.reduce((acc, cur) => acc + cur.rating, 0) / rows.length).toFixed(2) : 0,
     totalRatings: rows.length,
@@ -100,7 +100,7 @@ exports.getReviewExcerpts = async (id) => {
     WHERE "productId" = ${id}
     ORDER BY "isHelpfulCount" DESC
   `;
-  const { rows } = await client.query(query);
+  const { rows } = await pool.query(query);
   return rows.map(row => row.description.split(' ').slice(0, 2).join(' '));
 }
 
@@ -116,7 +116,7 @@ exports.getReviewsByFeature = async (id) => {
     FROM reviews
     WHERE "productId" = ${id}
   `;
-  const { rows } = await client.query(query);
+  const { rows } = await pool.query(query);
   return {
     easeToUse: (rows.reduce((acc, cur) => acc + cur.easeToUse, 0) / rows.length).toFixed(1),
     voiceRecognition: (rows.reduce((acc, cur) => acc + cur.voiceRecognition, 0) / rows.length).toFixed(1),
