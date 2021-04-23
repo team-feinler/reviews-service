@@ -1,9 +1,10 @@
 require('newrelic');
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const db = require('../database-postgres/dbHelpers');
 const cors = require('cors');
+const { redis, getFromCache } = require('./redis.js');
+const db = require('../database-postgres/dbHelpers');
+const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -140,12 +141,17 @@ app.delete('/review/:reviewId', async (req, res) => {
 
 //************/ Multi Review CRUD Endpoint /************//
 
-app.get('/reviews/:productId', async (req, res) => {
+app.get('/reviews/:productId', getFromCache, async (req, res) => {
   try {
-    const { rows } = await db.getReviewsByProductId(req.params.productId);
-    res.send(rows)
+    const { productId } = req.params;
+    const { rows } = await db.getReviewsByProductId(productId);
+    if (productId >= 9000000) {
+      redis.setex(productId, 14400, JSON.stringify(rows));
+    }
+    res.status(200).send(rows)
   } catch (err) {
-    res.send(err)
+    console.log(err)
+    res.status(500).send(err)
   }
 })
 
