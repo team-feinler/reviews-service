@@ -1,6 +1,6 @@
 const faker = require('faker');
 const { Pool } = require('pg');
-const pool = new Pool();
+const pool = new Pool({ max: 20 });
 
 const formatValue = (value) => {
   if (Array.isArray(value)) {
